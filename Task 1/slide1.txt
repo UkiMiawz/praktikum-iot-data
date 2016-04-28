@@ -1,0 +1,50 @@
+Setting up the OS
+==========================
+Reference - https://www.raspberrypi.org/forums/viewtopic.php?t=74176
+
+Pi Filler - http://ivanx.com/raspberrypi/
+
+Burning Raspbian
+--------------------
+- Download
+RASPBIAN JESSIE LITE - 284Mb - expands to 1.3Gb
+RASPBIAN JESSIE - 1,3Gb - expands to 4.3Gb
+Lite - lighter, doesn't have Xwindows and graphical stuffs (command line only)
+
+- Burn it to the card
+Use Pi Filler for Mac
+
+Booting & Installing
+------------------------
+- Boot the Raspberry Pi and find its IP Address
+Using "arp -a", you can see all the local IPs
+Search for your Raspberry Pi IP
+
+- Login using SSH
+SSH to your Rapsberry Pi using "ssh pi@192.168.1.8"
+The default password would be "raspberry"
+
+- Expand the filesystem
+Type "raspi-config" to set configuration parameters
+We will need to resize our filesystem
+Choose "Expand the filesystem"
+You will see a message that the filesystem will be resized at the next boot and you'll be returned to the configuration screen. 
+Use the arrow keys to highlight <Finish> and hit return.
+The next screen will ask "Would you like to reboot now?". Hit return to indicate <Yes>.
+Your terminal will report "Connection to xxx.xxx.xxx.xxx closed" because the Raspberry Pi is rebooting.
+
+- Housekeeping & update
+Now we need to make sure that Raspberry got the latest update
+SSH to your Raspberry Pi
+Run "apt-get update" and then "apt-get upgrade"
+
+Running your program
+--------------------------
+- Moving files to your Raspberry Pi
+In Mac, you can use "Fugu" SSH client to move files
+Move your python code file
+
+- Running python code
+SSH to your Raspberry Pi
+Go to the folder of your code
+Run "python code.py"
