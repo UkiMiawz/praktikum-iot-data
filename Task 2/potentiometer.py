@@ -8,4 +8,4 @@ while True:
 	# get 1 byte from TLC
 	fromTLC = spi.xfer2([0x00])
 	print fromTLC[0]
-	time.sleep(1)
+	time.sleep(0.5)
