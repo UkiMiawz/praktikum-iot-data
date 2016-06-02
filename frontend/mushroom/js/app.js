@@ -25,9 +25,7 @@ var App = function () {
     	  	$("a[data-name='"+$(this).attr("data-toggle")+"']").click();
     	});
 
-    	 $('.date-picker').datepicker({ 
-    	                 autoclose: true
-    	             });
+    	$('.date-picker').datepicker({ autoclose: true});
 
     }
 
@@ -185,22 +183,16 @@ var App = function () {
     }
 
     return {
-
         //main function to initiate the module
         init: function () {
         	initWindow();
         	creatStatusBarWidget();  
         	refresh();
-
         },
 
         update: function(){
         	refresh();
         }
-
-
-
-
     };
 
 }();
@@ -252,7 +244,7 @@ var Charts = function () {
 			} ],
 			legend: { position: "sw" }
 		} 
-		chartHumidity = $.plot("#chartHumidity", temp, options);       		 
+		chartHumidity = $.plot("#chartHumidity", data, options);       		 
     }
 
     function  light() {
@@ -287,16 +279,8 @@ var Charts = function () {
         updateChartTemperature: function () { 
         	setTimeout(function(){
         		chartTemperature.resize(); 
-        		chartTemperature.resize(function () {
-        					console.log("Placeholder is now "
-        						+ $(this).width() + "x" + $(this).height()
-        						+ " pixels");
-        				});
-
         		chartTemperature.setupGrid();
-        		chartTemperature.draw(function(){
-        			console.log("sopas");
-        		});
+        		chartTemperature.draw();
         	},100);
         },
         updateChartHumidity: function () { 
