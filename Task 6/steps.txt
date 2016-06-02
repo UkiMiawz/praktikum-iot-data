@@ -1,0 +1,13 @@
+for temperature and voltage:
+
+1.temperature.sh to read temperature
+2.created the device and add the resource to the resource catalog
+3.temperature_subscriber.py
+4.voltage.sh to read voltage
+5.add the resource to the device
+6.test it with the subscribe command only
+
+for shutdown:
+
+7.shutdown_subscriber.py
+8.add shutdown command
