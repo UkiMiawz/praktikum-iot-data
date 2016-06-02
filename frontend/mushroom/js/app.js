@@ -5,11 +5,9 @@ var App = function () {
 
     var currentTemperature;
     var currentHumidity;
-    var currentLight;
+    var currentLight; 
 
-
-    function initWindow(){
-
+    function initWindow(){ 
     	$(".island").css({"top": ((($(window).height()-$("#statusBar").height())/2)-($(".island").height()/2))}); 
     	$('[data-toggle="popover"]').popover();
     	$(".mainLoading").hide();
