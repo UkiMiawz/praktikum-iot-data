@@ -3,22 +3,33 @@ var App = function () {
     var dialHumidity;
     var dialLight;
 
-    var currentTemperature;
-    var currentHumidity;
-    var currentLight; 
+    var currentTemperature = 25;
+    var currentHumidity = 10;
+    var currentLight = 0; 
+
+    var previousTemperature = 0;
+    var previousHumidity = 0;
 
     function initWindow(){ 
-    	$(".island").css({"top": ((($(window).height()-$("#statusBar").height())/2)-($(".island").height()/2))}); 
-    	$('[data-toggle="popover"]').popover();
+        
+        setTimeout(function(){ 
+            updateIsland();
+            setDealHeight();
+        },100);
+
+       
     	$(".mainLoading").hide();
     	$(".main").removeClass("hidden");
 
     	$( window ).resize(function() { 
-    	  	$(".island").css({"top": ((($(window).height()-$("#statusBar").height())/2)-($(".island").height()/2))}); 
-    	  	Charts.updateCharts(); 
+            updateIsland();
+    	  	Charts.updateCharts();  
+            setTimeout(function(){
+                setDealHeight();
+            },100); 
     	});
 
-    	$("#actions .dropdown-menu a").click(function() { 
+    	$(".charts a").click(function() { 
     	  	$("#modalAnalytics").modal('show');
     	  	$("a[data-name='"+$(this).attr("data-toggle")+"']").click();
     	});
@@ -27,19 +38,39 @@ var App = function () {
 
     }
 
+    function setDealHeight(){
+        $( ".dial .gauge" ).each(function( index ) {
+            if(($(this).parent().height() < $(this).height()) && $(this).parent().height() < 140){
+                console.log("soy menor");
+                $(this).parent().css({"width": $(this).parent().height()+ $(this).parent().height()/1.6});
+            }else{
+                $(this).parent().css({"width":"80%"});   
+            } 
+             $(this).css({"top":(($(".dial").height()-$(this).height())/2)+$(this).height()/22});
+        });
+    }
+
 	function  creatStatusBarWidget(){
 		dialTemperature = new JustGage({
             id: 'dialTemperature', 
             valueFontFamily: "caviar_dreamsregular",
             valueFontColor: "white", 
+            labelFontColor: "white",
+            gaugeColor: "transparent",
+            valueFontSize: "80px",
+            titlePosition: "below", 
             value: 25,
             min: 0,
             max: 50,
             startAnimationTime: 400,
             refreshAnimationTime: 400,
             symbol: '°', 
-            gaugeWidthScale: 0.2,
+            gaugeWidthScale: 0.3,
+            startAnimationTime: 2000,
+            startAnimationType: ">",
+            refreshAnimationTime: 1000,
             humanFriendly: true,
+            relativeGaugeSize: true, 
             color: '#8e8e93',
             customSectors: [{
                   color : "#FFD600",
@@ -61,15 +92,21 @@ var App = function () {
             id: 'dialHumidity', 
             valueFontFamily: "caviar_dreamsregular",
             valueFontColor: "white", 
+            labelFontColor: "white",
+            gaugeColor: "transparent",
+            titlePosition: "below",
             value: 40,
             min: 0,
             max: 100,
             startAnimationTime: 400,
             refreshAnimationTime: 400,
             symbol: '%', 
-            gaugeWidthScale: 0.2,
-           
+            gaugeWidthScale: 0.3,
+            startAnimationTime: 2000,
+            startAnimationType: ">",
+            refreshAnimationTime: 1000,
             humanFriendly: true,
+            relativeGaugeSize: true, 
             color: '#8e8e93',
             customSectors: [{
                   color : "#FFD600",
@@ -85,21 +122,28 @@ var App = function () {
                   hi : 100
                 }],
         });
+ 
 
         dialLight = new JustGage({
             id: 'dialLight', 
+            gaugeColor: "transparent",
+            titlePosition: "below",
             valueFontFamily: "caviar_dreamsregular",
-            valueFontColor: "white", 
+            valueFontColor: "white",
+            labelFontColor: "white", 
             value: 80,
             min: 0,
-            max: 4000,  
+            max: 4000, 
+            relativeGaugeSize: true, 
             startAnimationTime: 400,
             refreshAnimationTime: 400,
-            gaugeWidthScale: 0.2,  
-           
-            humanFriendly: true,
+            gaugeWidthScale: 0.3,  
+            startAnimationTime: 2000,
+            startAnimationType: ">",
+            refreshAnimationTime: 1000,
             color: '#8e8e93',
             textRenderer: lightRangeValues,
+            humanFriendly: true,
             customSectors: [{
                   color : "#FFD600",
                   lo : 0,
@@ -117,13 +161,19 @@ var App = function () {
 	}
 
 
-	function setTemperature(val){
-		currentTemperature = getRandomInt(0, 50);
+	function setTemperature(val){  
+        currentTemperature = val;
+            if(currentTemperature<29){
+                imageObj.src = "./images/nebel.png";  
+            }else{
+                imageObj.src = "./images/hell.png";
+            }
 		dialTemperature.refresh(currentTemperature); 
+        updateChampiState();
 	}
 
-	function setLight(val){
-		currentLight = getRandomInt(0, 400);
+	function setLight(val){ 
+		currentLight = val;
 		dialLight.refresh(currentLight);
 		if(currentLight > 110){
 			$(".sunshine").css({"opacity": "1.0" });
@@ -132,32 +182,41 @@ var App = function () {
 		}else{
 			$(".sunshine").css({"opacity": "0.3" });
 		}
+        updateChampiState();
 	}
 
-	function setHumidity(val){ 
-		currentHumidity = getRandomInt(0, 100);
-		dialHumidity.refresh(currentHumidity); 
-		$("#globalMist").css({"opacity": (currentHumidity/100) }); 
-		$(".mist, .mist, .backCloud, .frontCloud").css({"opacity": (currentHumidity/100) });
+	function setHumidity(val){
+        previousHumidity = dialHumidity.config.value; 
+		currentHumidity = val;
+		dialHumidity.refresh(currentHumidity);  
+        if(previousHumidity < currentHumidity ){ 
+            if(currentTemperature<29){
+                imageObj.src = "./images/nebel.png";
+            }else{
+                imageObj.src = "./images/hell.png";
+            }
+           contextGlobalHumidity.clearRect(0, 0, canvasWidth, canvasHeight); 
+        } 
+        $("#globalMist").css({"opacity": (currentHumidity/100) });  
+        $(".mist, .mist, .backCloud, .frontCloud").css({"opacity": (currentHumidity/100) }); 
 		updateChampiState();
 	}
+ 
 
-
-	function updateChampiState(){
-
+	function updateChampiState(){ 
 		if(currentTemperature < 18 ){
-			$("#champi img").attr("src","images/champiFrozen.svg");
+			$(".mushrooms").attr("src","images/champiFrozen.svg");
 		}else if(currentTemperature > 28 ){
-			$("#champi img").attr("src","images/champiOnfire.svg");
+			$(".mushrooms").attr("src","images/champiOnfire.svg"); 
 		}else if (currentLight > 100){
-			$("#champi img").attr("src","images/champiIrritated.svg");
+			$(".mushrooms").attr("src","images/champiIrritated.svg");
 		}else if(currentHumidity < 60 ){
-			$("#champi img").attr("src","images/champiThirsty.svg");
+			$(".mushrooms").attr("src","images/champiThirsty.svg");
 		}else {
-			$("#champi img").attr("src","images/champiHappy.svg");
+			$(".mushrooms").attr("src","images/champiHappy.svg");
 		}
+        updateIsland(); 
 	}
-    
 
     // Max intensity measured 4000 lux
     // Mushrooms need around 100 lux in order to grow properly
@@ -171,13 +230,20 @@ var App = function () {
         }
     }
 
+    function updateIsland(){
+        setTimeout(function(){
+            $(".island").css({"top": (($(window).height()/2)-($(".mushrooms").height()/2))});   
+        },100);
+         
+    }
+
     function refresh(){
-    	setTemperature(null);
-    	setLight(null);
-    	setHumidity(null);
+    	setTemperature(getRandomInt(0, 50));
+    	setLight(getRandomInt(0, 120));
+    	setHumidity(getRandomInt(0,100));
     	setTimeout(function(){
     		refresh();
-    	},9000);
+    	},9000); 
     }
 
     return {
@@ -190,11 +256,16 @@ var App = function () {
 
         update: function(){
         	refresh();
-        }
+        },
+        temperature: function(val){
+            setTemperature(val);
+        },
+        humidity: function(val){
+            setHumidity(val);
+        },
     };
 
 }();
-
 
 var Charts = function () {
     var chartTemperature;
@@ -279,28 +350,28 @@ var Charts = function () {
         		chartTemperature.resize(); 
         		chartTemperature.setupGrid();
         		chartTemperature.draw();
-        	},100);
+        	},200);
         },
         updateChartHumidity: function () { 
         	setTimeout(function(){
         		chartHumidity.resize(); 
         		chartHumidity.setupGrid();
         		chartHumidity.draw();
-        	},100); 
+        	},200); 
         },
         updateChartLight: function () { 
         	setTimeout(function(){
         		chartLight.resize(); 
         		chartLight.setupGrid();
         		chartLight.draw();
-        	},100);
+        	},200);
         },
 
         updateCharts: function(){
         	Charts.updateChartTemperature();
 			Charts.updateChartHumidity();
 			Charts.updateChartLight();
-        }
+        }, 
     };
 
 }();

@@ -47,7 +47,6 @@ input{
 	outline: none !important;
 }
 
-
 body {
 	width: 100%;
 	height: 100%;
@@ -79,56 +78,7 @@ body {
     position: relative;
     top: calc(50% + (-40px));
 }
- 
 
-
-@keyframes dash {
-  from {
-    stroke-dashoffset: 1000;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-/*.btn.btn-outline.green {
-    border-color: #2B911B;
-    color: #2B911B;
-    background: 0 0;
-}
-
-.btn.btn-outline.green.active, .btn.btn-outline.green:active, .btn.btn-outline.green:active:focus, .btn.btn-outline.green:active:hover, .btn.btn-outline.green:focus, .btn.btn-outline.green:hover {
-    border-color: #2B911B;
-    color: #fff;
-    background-color: #2B911B;
-}
-
-.btn:not(.btn-sm):not(.btn-lg) {
-    line-height: 1.44;
-}*/
- 
-/*.btn {
-    box-shadow: none!important;
-    outline: 0!important;
-    display: inline-block;
-    margin-bottom: 0;
-    font-weight: 400;
-    text-align: center;
-    vertical-align: middle;
-    touch-action: manipulation;
-    cursor: pointer;
-    border: 1px solid transparent;
-    white-space: nowrap;
-    padding: 6px 12px;
-    font-size: 14px;
-    line-height: 1.42857;
-    border-radius: 4px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-*/
 .background{ 
 	width: 100%;
 	height: 100%;
@@ -142,8 +92,7 @@ body {
 	width: 100%;
 	height: 100%;
 	position: absolute;
-	top: 0;
-	z-index: -1;
+	top: 0; 
 	background: url(../images/pattern.png) repeat;
 }
 
@@ -152,133 +101,113 @@ body {
 	width: 100%;
 }
 
-#statusBar{  
-    background: rgba(0,0,0,0.7); 
+.mainPanel{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+.leftPanel{
+    position: relative;
+    width: 300px;
+    height: 100%;
+    float: left;
+}
+
+.rightPanel{
+    position: relative;
+    width: calc(100% + (-300px));
+    height: 100%;
+    float: right; 
+}
+
+#statusBar{   
     position: relative;
     z-index: 5;
-}
-
-
-#statusBar .box {
-    float: left;
-    width: 120px;
     height: 100%;
-    box-sizing: border-box;
-    top: -30px;
-    position: relative;
-}
- 
-
-#statusBar .box svg text:nth-of-type(2){
-    font-size: 31px !important;
-    background: red;
-
 }
 
-#statusBar .gauge {
-    width: 120px;
-    height: 120px;
+#statusBar > div{
+    height: calc(33.333333333% + (-30px));  
+    margin: 15px;
+    width: calc(100% + (-30px));
+    background: rgba(0,0,0,0.8);
+    -webkit-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.4) inset;
+    -moz-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.4) inset;
+    box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.4) inset;
 }
 
+#statusBar > div .title  {
+    background: black;
+    width: 100%;
+    display: inline-block;
+    padding: 2px 5px;
 
-#statusBar .tile{
-	height: 80px; 
 }
 
-#statusBar .icon{
-	margin: 5px;
-    height: 70px;
-    width: 70px; 
+#statusBar > div .title p{
+    color: white;
+    font-family: 'caviar_dreamsregular';
+    font-size: 25px;
     float: left;
+    padding: 0 15px;
+    background: black;
+    margin: 0px;
 }
 
-#statusBar .icon img{
-	height: 70px; 
-	width: 70px; 
+#statusBar > div .title .icon{
+    float: left;
+    padding: 2px;
 }
 
-#champi .icon{
-	float: right;
+#statusBar > div .title .icon img{
+    width: 30px;
 }
 
-#champi .icon img{
-	height: 65px;
-	padding-top: 5px;
+#statusBar > div .dial{
+    position: relative;
+    top: -5px;
+    width: 80%;
+    margin: 0 auto;
+    height: calc(100% + (-39px));
+    overflow: hidden;
 }
 
-#champi .tile a{
-	width: 100%;
-	height: 100%;
-	border: 0px;
-	display: block;
-}
-
-#actions .dropdown {
-  	width: 80px;
-  	float: right;
-  	padding: 10px;
-  	margin-right: 5px;
-}
-
-#actions .dropdown button{
-  	width: 65px;
-    height: 65px;
-    background: none; 
-    border: 1px solid white;
-    -webkit-transition: all 0.2s; /* Safari */
-    transition: all 0.2s;
-}
-
-#actions .dropdown button:hover,#actions .dropdown button:focus, #actions .dropdown.open button{ 
-    background: black;  
-}
-
-#actions .dropdown-menu{
-	background: rgba(0,0,0,0.7);
-	right: -2px;
-	padding: 0;
-	border: 0px; 
-} 
-
-#actions .dropdown-menu li a{
-	color: white;
-    padding: 10px 15px;
-	-webkit-transition: all 0.2s; /* Safari */
-    transition: all 0.2s; 
-}
-
-#actions .dropdown-menu li a:hover, #actions .dropdown-menu li a:focus {
-    text-decoration: none; 
-    background-color: black;
+#statusBar > div .dial > div{
+    position: relative;
+    margin: 0 auto;
 }
 
 .chamber{ 
 	overflow: hidden;
-	height: calc(100% + (-88px));
-	width: 100%;
-	position: absolute;
+    height: 100%;
+}
+
+.chamber img{
+    margin: 0 auto;
 }
 
 .island{  
+    top: 0;
     position: relative;
-    width: 100%;
-    height: 440px;
-    background: url(../images/island.svg) no-repeat center 130px;
-    background-size: contain;
-    max-width: 650px;
-    margin: 0 auto;
-    top: 60px;
+    -webkit-transition: top 1s; /* Safari */
+    transition: top 1s; 
 }
 
-.mushrooms{  
-    width: 100%;
-    height: 190px;
-    background: url(../images/mushrooms.svg) no-repeat center 0;
+.ground{
+    background: url(../images/island.svg) no-repeat center bottom;
     background-size: contain;
-    max-width: 650px; 
-    position: relative; 
-    z-index: 1;
+    max-width: 800px;
 }
+
+.mushrooms {
+    position: relative;
+    top: 0px;
+    z-index: 2;
+    max-width: 800px;
+    width: 100%;
+}
+
 
 #globalMist {
   background: transparent;
@@ -291,7 +220,7 @@ body {
 }
 
 .sunshine{
-	background: url(../images/sunshine.png) no-repeat right;
+	background: url(../images/sunshine.png) no-repeat top right;
 	width: 100%;
 	height: 100%;
 	position: absolute;
@@ -303,38 +232,10 @@ body {
 }
 
 .sunshine.front{
-	background: url(../images/sunshineFront.png) no-repeat right;
+	background: url(../images/sunshineFront.png) no-repeat top right;
 	background-size: cover;
 	z-index: 3;
-}
-
-.mist{
-	opacity: 0.0;
-	width: 100%;
-    height: 100%;
-    position: fixed;
-    z-index: -1;
-    -webkit-transition: opacity 1s; /* Safari */
-    transition: opacity 1s;
-    background: url(../images/mist.png) repeat-x center;
-    background-size: contain;  
-    -webkit-animation-name: animateMist;
-    -webkit-animation-duration: 400s;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: linear;
-    -moz-animation-name: animateMist;
-    -moz-animation-duration: 400s;
-    -moz-animation-iteration-count: infinite;
-    -ms-animation-name: animateMist;
-    -moz-animation-timing-function: linear;
-    -ms-animation-duration: 400s;
-    -ms-animation-iteration-count: infinite;
-    -ms-animation-timing-function: linear;
-    animation-name: animateMist;
-    animation-duration: 400s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-}
+} 
 
 .frontCloud{
 	opacity: 0.0;
@@ -363,7 +264,6 @@ body {
     animation-duration: 140s;
     animation-iteration-count: infinite;
     animation-timing-function: ease-in-out;
- 
 }
 
  
@@ -407,7 +307,7 @@ body {
     background: url(../images/backCloud.png) no-repeat center;  
     position: absolute;
     top: 250px;
-    z-index: -1;
+    z-index: 0;
     -webkit-animation-name: animateBackCloud;
     -webkit-animation-duration: 200s;
     -webkit-animation-iteration-count: infinite;
@@ -443,35 +343,6 @@ body {
 	100% {background-position: calc(100% + 473.5px) 0%;} 
 }
 
-@-ms-keyframes animateMist{ 
-	0%  {background-position: -100% 0%;}
-	25% {background-position: 25% 0%;}
-	50% {background-position: 50% 0%;}
-	75% {background-position: 75% 0%;}
-	100% {background-position: 200% 0%;}
-}
-@-moz-keyframes animateMist{
-	0%  {background-position: -100% 0%;}
-	25% {background-position: 25% 0%;}
-	50% {background-position: 50% 0%;}
-	75% {background-position: 75% 0%;}
-	100% {background-position: 200% 0%;}
-}
-@-webkit-keyframes animateMist{
-	0%  {background-position: -100% 0%;}
-	25% {background-position: 25% 0%;}
-	50% {background-position: 50% 0%;}
-	75% {background-position: 75% 0%;}
-	100% {background-position: 200% 0%;}
-}
-@keyframes animateMist{
-	0%  {background-position: -100% 0%;}
-	25% {background-position: 25% 0%;}
-	50% {background-position: 50% 0%;}
-	75% {background-position: 75% 0%;}
-	100% {background-position: 200% 0%;}
-}
-
 .floating{ 
     -webkit-animation-name: Floatingx;
     -webkit-animation-duration: 5s;
@@ -482,7 +353,6 @@ body {
     -moz-animation-iteration-count: infinite;
     -moz-animation-timing-function: ease-in-out;
     margin-top: 5px;
-
 }
 
 @-webkit-keyframes Floatingx{
@@ -496,7 +366,6 @@ body {
     65% {-moz-transform:translate(0, 5px);}
     to {-moz-transform: translate(0, -0px);}    
 }
-
 
 .scaling{ 
     -webkit-animation-name: scalex;
@@ -523,6 +392,31 @@ body {
 
 
 
+.charts{
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    display: block;
+    height: calc(100% + (-30px));
+    z-index: 10;
+}
+
+.charts > div{
+    display: block;
+    padding: 5px;
+    height: 60px;
+    width: 60px;
+    margin-bottom: 15px;
+    background: black;
+    -webkit-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.4) inset;
+    -moz-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.4) inset;
+    box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.4) inset;
+    transition: all 0.3s linear;
+}
+
+.charts > div:hover{
+    background: #212121;
+}
 
  /*MODAL*/
 
@@ -640,66 +534,13 @@ body {
 @media (min-width: 768px){
 	.modal-dialog {
 	    width: 600px;
-	    margin: 100px auto 20px auto;
+	    margin: 10px auto 20px auto;
 	}	
 }
 
 
 @media only screen and (max-width: 768px){ 
-
-    #statusBar{
-       position: fixed;
-       width: 100%;
-       z-index: 1;
-         
-    }
-
-    #statusBar .tile{ 
-        margin: 10px 0;
-        margin: 10px 0;
-        height: 44px;
-    }
-
-    #statusBar .icon{
-        height: 35px;
-        width: 35px;
-    }
-
-    #statusBar .icon img{
-        height: 35px;
-        width: 35px;
-    }
-
-    #statusBar .value{ 
-        font-size: 35px;
-        line-height: 45px;
-        margin-left: 5px;
-    }
-
-
-
-    #champi .tile{
-        height: 200px;
-        width: 200px;
-        margin: 10px auto;
-        margin-top: 70px;
-    }
-
-    #champi .tile .icon{
-        width: 200px;
-        height: 200px;
-    }
-
-    #champi .icon img{
-        width: 200px;
-        height: 200px;
-        -webkit-transition: opacity 1s; /* Safari */
-  		transition: opacity 1s;
-    } 
-
-    #actions .dropdown button{
-	 	margin-top: 30px; 	
-    }
+ 
 }
  
 
@@ -710,40 +551,7 @@ and (orientation : landscape) {
 	.chamber{
         display: none;
     }
-    #temperature{
-    	width: 40%;
-    }
-
-    #humidity{
-    	width: 40%;
-    }
-
-    #actions .dropdown { 
-	    position: absolute;
-	    right: 30px;
-	    top: -414px;
-	}
-
-	#champi .tile{
-        height: 280px;
-        width: 280px;
-        margin: 30px auto;
-        margin-top: 22px;
-    }
-
-    #champi .tile .icon{
-        width: 280px;
-        height: 280px;
-    }
-
-    #champi .icon img{
-        width: 280px;
-        height: 280px;
-    } 
-
-    #actions .dropdown button{
-	 	margin-top: 0px; 	
-    }
+     
 }
 
 @media only screen 
@@ -753,60 +561,5 @@ and (orientation : landscape) {
 	.chamber{
         display: none;
     }
-    #temperature{
-    	float: left;
-	    width: 40%;
-	    margin-top: 76px;
-    }
-
-    #humidity{
-    	 float: left;
-    	width: 40%;
-    	clear: left;
-    }
-
-
-    #statusBar {
-	    background: rgba(0,0,0,0.7);
-	    position: absolute;
-	    width: 100%;
-	    height: 100%;
-	}
-
-	#actions{
-		position: absolute;
-	}
-
-    #actions .dropdown { 
-	    position: absolute;
-	    right: 0px;
-	    top: 0px;
-	}
-
-	#champi{
-	    width: 60%;
-	    position: absolute;
-	    right: 0px;
-	    top: 15px; 
-	}
-
-	#champi .tile{
-        height: 240px;
-        width: 240px;
-        
-    }
-
-    #champi .tile .icon{
-        width: 240px;
-        height: 240px;
-    }
-
-    #champi .icon img{
-        width: 240px;
-        height: 240px;
-    } 
-
-    #actions .dropdown button{
-	 	margin-top: 0px; 	
-    }
+    
 }

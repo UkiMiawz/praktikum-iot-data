@@ -28,7 +28,7 @@
     imageObj.src = "./images/nebel.png";
 
     // A function to create a particle object.
-    function Particle(context) {
+    function Particle(contextGlobalHumidity) {
 
         // Set the initial x and y positions
         this.x = 0;
@@ -41,23 +41,24 @@
         // Set the radius
         this.radius = 30;
 
-        // Store the context which will be used to draw the particle
-        this.context = context;
+        // Store the contextGlobalHumidity which will be used to draw the particle
+        this.contextGlobalHumidity = contextGlobalHumidity;
 
         // The function to draw the particle on the canvas.
         this.draw = function() {
             
             // If an image is set draw it
             if(this.image){
-                this.context.drawImage(this.image, this.x-128, this.y-128);         
+                this.contextGlobalHumidity.drawImage(this.image, this.x-128, this.y-128);         
                 // If the image is being rendered do not draw the circle so break out of the draw function                
                 return;
             }
             // Draw the circle as before, with the addition of using the position and the radius from this object.
-            this.context.beginPath();
-            this.context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false); 
-            this.context.fill();
-            this.context.closePath();
+            this.contextGlobalHumidity.beginPath();
+            this.contextGlobalHumidity.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false); 
+            this.contextGlobalHumidity.fill();
+            this.contextGlobalHumidity.closePath();
+
         };
 
         // Update the particle.
@@ -109,23 +110,23 @@
 
     // A function to generate a random number between 2 values
     function generateRandom(min, max){
-        return Math.random() * (max - min) + min;
+        return Math.random() * (max - min) + min; 
     }
 
-    // The canvas context if it is defined.
-    var context;
+    // The canvas contextGlobalHumidity if it is defined.
+    var contextGlobalHumidity;
 
-    // Initialise the scene and set the context if possible
+    // Initialise the scene and set the contextGlobalHumidity if possible
     function init() {
         var canvas = document.getElementById('globalMist');
         if (canvas.getContext) {
 
-            // Set the context variable so it can be re-used
-            context = canvas.getContext('2d');
+            // Set the contextGlobalHumidity variable so it can be re-used
+            contextGlobalHumidity = canvas.getContext('2d');
 
             // Create the particles and set their initial positions and velocities
             for(var i=0; i < particleCount; ++i){
-                var particle = new Particle(context);
+                var particle = new Particle(contextGlobalHumidity);
                 
                 // Set the position to be inside the canvas bounds
                 particle.setPosition(generateRandom(0, canvasWidth), generateRandom(0, canvasHeight));
@@ -143,8 +144,8 @@
     // The function to draw the scene
     function draw() {
         // Clear the drawing surface and fill it with a black background
-        context.fillStyle = "rgba(0, 0, 0,0)"; 
-         context.fillRect(0, 0, 800, 400);
+        contextGlobalHumidity.fillStyle = "rgba(0, 0, 0,0)"; 
+        contextGlobalHumidity.fillRect(0, 0, 800, 400);
 
         // Go through all of the particles and draw them.
         particles.forEach(function(particle) {
@@ -153,22 +154,23 @@
     }
 
     // Update the scene
-    function update() {
+    function update() { 
         particles.forEach(function(particle) {
             particle.update();
         });
+
     }
 
     // Initialize the scene
     init();
 
-    // If the context is set then we can draw the scene (if not then the browser does not support canvas)
-    if (context) {
+    // If the contextGlobalHumidity is set then we can draw the scene (if not then the browser does not support canvas)
+    if (contextGlobalHumidity) {
         setInterval(function() {
-            // Update the scene befoe drawing
+            // Update the scene before drawing
             update();
-
             // Draw the scene
             draw();
         }, 1000 / targetFPS);
+
     } 

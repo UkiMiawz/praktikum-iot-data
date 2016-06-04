@@ -397,7 +397,7 @@ JustGage = function(config) {
     titleY = dy + (obj.config.titlePosition === 'below' ? (widgetH * 1.07) : (widgetH / 6.4));
 
     // value
-    valueFontSize = ((widgetH / 6.5) > obj.config.valueMinFontSize) ? (widgetH / 6.5) : obj.config.valueMinFontSize;
+    valueFontSize = ((widgetH / 4) > obj.config.valueMinFontSize) ? (widgetH / 4) : obj.config.valueMinFontSize;
     valueX = dx + widgetW / 2;
     valueY = dy + widgetH / 1.275;
 
@@ -594,7 +594,8 @@ JustGage = function(config) {
 
   // gauge
   obj.gauge = obj.canvas.path().attr({
-    "stroke": "none",
+    "stroke": "white",
+    "stroke-width": "2",
     "fill": obj.config.gaugeColor,
     pki: [
       obj.config.max,
