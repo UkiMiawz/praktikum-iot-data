@@ -86,7 +86,7 @@
               </a>
             </div>
             <div>
-              <a onclick="Charts.updateChartTimeline();" data-toggle="timeline">
+              <a onclick="Charts.updateTimeline();" data-toggle="timeline">
                 <img class="img-responsive" src="images/champiMessages.svg"/>
               </a>
             </div>
@@ -118,6 +118,11 @@
                     <li>
                       <a href="#tabLight" onclick="Charts.updateChartLight();" data-name="light" data-toggle="tab">
                          Light
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#tabTimeline" onclick="Charts.updateTimeline();" data-name="timeline" data-toggle="tab">
+                         Timeline
                       </a>
                     </li>
 
@@ -153,6 +158,11 @@
                     <div class="tab-pane" id="tabLight"> 
                       <div id="content"> 
                          <div id="chartLight" class="chart-container"></div>
+                      </div>
+                    </div>
+                    <div class="tab-pane" id="tabTimeline"> 
+                      <div id="content"> 
+                         <div id="timeline"></div>
                       </div>
                     </div> 
                   </div>

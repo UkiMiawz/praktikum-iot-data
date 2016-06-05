@@ -367,6 +367,10 @@ var Charts = function () {
         	},200);
         },
 
+        updateTimeline: function () { 
+            
+        },
+
         updateCharts: function(){
         	Charts.updateChartTemperature();
 			Charts.updateChartHumidity();
