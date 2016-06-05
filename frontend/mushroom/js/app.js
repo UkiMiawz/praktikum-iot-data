@@ -16,7 +16,6 @@ var App = function () {
             updateIsland();
             setDealHeight();
         },100);
-
        
     	$(".mainLoading").hide();
     	$(".main").removeClass("hidden");
