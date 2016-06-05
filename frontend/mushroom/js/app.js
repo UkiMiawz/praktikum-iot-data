@@ -238,7 +238,7 @@ var App = function () {
 
     function refresh(){
     	setTemperature(getRandomInt(0, 50));
-    	setLight(getRandomInt(0, 120));
+    	setLight(getRandomInt(0, 300));
     	setHumidity(getRandomInt(0,100));
     	setTimeout(function(){
     		refresh();
