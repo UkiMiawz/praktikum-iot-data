@@ -4,6 +4,8 @@ import os
 MQTT_HOST= os.getenv('CLOUDMQTT_HOST', 'iot.eclipse.org')
 MQTT_PORT= os.getenv('CLOUDMQTT_PORT', '1883')
 TEST_TOPIC= os.getenv('TEST_TOPIC', 'ukimiawz/test')
+HUMIDITY_TOPIC= os.getenv('HUMIDITY_TOPIC', 'groupB/humidity')
+TEMPERATURE_TOPIC= os.getenv('TEMPERATURE_TOPIC', 'groupB/temperature')
 
 KEEN_PROJECT_ID= os.getenv('KEEN_PROJECT_ID', '5742044f07271914d3cbbf93')
 KEEN_WRITE_KEY= os.getenv('KEEN_WRITE_KEY', 'c0b97b6bafa5637e49569cae3a36601e26d1c58dcbcf45ee93614f3676bf8b25620d53d7296c8371be8a1123a997c1cd8338d0c0b75b9ab06357f9b8fb403d21b1c0f5136bbfb7d5714c80b14565f42309b0e00a5af2412649395f00673d44cc')
