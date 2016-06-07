@@ -38,7 +38,7 @@ try:
         mosquitto_client.connect(url.hostname, url.port)
 
         mosquitto_client.on_publish = on_publish
-        mosquitto_client.publish(humidity_topic, '{"humidity": {humidity}}'.format(humidity=humidity))
+        mosquitto_client.publish(humidity_topic, '{"humidity": {humidity_data}}'.format(humidity_data=humidity))
         mosquitto_client.publish(temperature_topic, '{"temperature": {temperature}}'.format(temperature=temperature))
 
         keen_client = KeenClient(
