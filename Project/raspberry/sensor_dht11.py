@@ -24,7 +24,7 @@ pin = 4
 logger = app_logging.get_logger()
 
 def on_publish(mosq, obj, mid):
-    print("mid: " + str(mid))
+    logger.info("mid: " + str(mid))
 
 try:
     while True:
