@@ -3,6 +3,7 @@ import paho.mqtt.client as mqtt
 import Adafruit_DHT
 import traceback
 import time
+import app_logging
 
 from keen.client import KeenClient
 from settings import *
@@ -20,6 +21,8 @@ keen_master_key = KEEN_MASTER_KEY
 sensor = Adafruit_DHT.DHT11
 pin = 4
 
+logger = app_logging.get_logger()
+
 def on_publish(mosq, obj, mid):
     print("mid: " + str(mid))
 
@@ -28,9 +31,9 @@ try:
         #generate data
         humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
         if humidity is not None and temperature is not None:
-            print('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
+            logger.info('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
         else:
-            print('Error failed to get reading. Try again!')
+            logger.error('Error failed to get reading. Try again!')
             raise
 
         mosquitto_client = mqtt.Client()
@@ -56,5 +59,5 @@ try:
 
 except:
     trace = traceback.format_exc()
-    print "Unexpected error: %s" % trace
+    logger.error("Unexpected error: %s" % trace)
     raise
