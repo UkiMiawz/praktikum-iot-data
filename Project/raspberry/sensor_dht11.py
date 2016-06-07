@@ -24,7 +24,7 @@ def on_publish(mosq, obj, mid):
     print("mid: " + str(mid))
 
 try:
-    while true:
+    while True:
         #generate data
         humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
         if humidity is not None and temperature is not None:
