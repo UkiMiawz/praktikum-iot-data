@@ -52,7 +52,7 @@ try:
             "temperature": temperature,
             "humidity": humidity
         })
-        time.sleep(10)
+        time.sleep(60)
 
 except:
     trace = traceback.format_exc()
