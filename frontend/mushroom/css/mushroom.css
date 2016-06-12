@@ -96,6 +96,29 @@ body {
 	background: url(../images/pattern.png) repeat;
 }
 
+.background .timestamp{
+    font-family: "caviar_dreamsregular";
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    color: white;
+    text-align: right;
+}
+
+.background .timestamp .time{
+   font-size: 20px;
+}
+
+.background .timestamp .date{
+   font-size: 14px;
+}
+
+.background .timestamp .timeLebel{
+   font-size: 10.5px;
+}
+
+
+
 .background img{ 
 	height: 100%;
 	width: 100%;
@@ -116,9 +139,10 @@ body {
 
 .rightPanel{
     position: relative;
-    width: calc(100% + (-300px));
+    width: calc(100% + (-390px));
     height: 100%;
-    float: right; 
+    float: left;
+    left: 0; 
 }
 
 #statusBar{   
@@ -390,16 +414,23 @@ body {
         to {-moz-transform: scale(0.9);}    
     }
 
+.automationBtn{
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    display: block;
+    z-index: 10;
+}
+
 .charts{
     position: fixed;
     top: 15px;
     right: 15px;
     display: block;
-    height: calc(100% + (-30px));
     z-index: 10;
 }
 
-.charts > div{
+.charts > div , .automationBtn > div{
     display: block;
     padding: 5px;
     height: 60px;
@@ -413,7 +444,7 @@ body {
     border: 1px solid black;
 }
 
-.charts > div:hover{
+.charts > div:hover, .automationBtn > div:hover{
     background: #212121;
     cursor: pointer;
     border: 1px solid white;

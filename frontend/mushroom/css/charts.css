@@ -3,6 +3,9 @@
     height: 450px;
     padding: 0px;
     margin: 5px auto; 
-    background: white; 
+    background: white;  
 }
 
+.contentTable{
+	overflow: hidden;
+}
