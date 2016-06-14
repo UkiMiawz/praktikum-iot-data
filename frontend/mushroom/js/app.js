@@ -261,17 +261,9 @@ var App = function () {
     }
 
     function setLastContactWithServer(date){
-        var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-          "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
-        ];
-
-        d = new Date(date
-                    .replace("T"," ")
-                    .replace("Z","")
-                    .replace(/[-]/g,"."));
-
-        $(".time").html(date.substring(date.indexOf("T")+1, date.indexOf(".")));
-        $(".date").html(d.getDate()+"."+monthNames[d.getMonth()]+"."+d.getFullYear());
+        date = moment.tz(date, TIMEZONE);
+        $(".time").html(date.format("hh:mm:ss"));
+        $(".date").html(date.format("MMM.DD.YYYY").toUpperCase()); 
     }
 
     return {
@@ -305,7 +297,6 @@ var Charts = function () {
     var lightData = []; 
 
     function updateLastValue(){
-      
         $.ajax({  
             url: KEEN_GET_LASTEST_VALUES, 
             dataType: "json",
@@ -329,11 +320,7 @@ var Charts = function () {
     }
 
     function convertDateToUnix(date){
-        date = new Date(date
-            .replace("T"," ")
-            .replace("Z","")
-            .replace(/[-]/g,".")).getTime()/1000; 
-        return Math.ceil(date);
+        return moment.tz(date, TIMEZONE).unix();
     }
 
     function initData(){
