@@ -49,6 +49,8 @@ var App = function () {
         });
     }
 
+    //this is a comment change
+
 	function  creatStatusBarWidget(){
 		dialTemperature = new JustGage({
             id: 'dialTemperature', 
