@@ -13,6 +13,7 @@ mqtt_host = MQTT_HOST
 mqtt_port = MQTT_PORT
 humidity_topic = HUMIDITY_TOPIC
 temperature_topic = TEMPERATURE_TOPIC
+lux_topic = LUX_TOPIC
 
 keen_project_id = KEEN_PROJECT_ID
 keen_write_key = KEEN_WRITE_KEY
@@ -31,17 +32,18 @@ try:
     while True:
         #generate data
         humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-		full, ir = tsl.get_full_luminosity() # read raw values (full spectrum and ir spectrum)
-		lux = tsl.calculate_lux(full, ir) # convert raw values to lux
+	tsl = tsl2591.Tsl2591()
+	full, ir = tsl.get_full_luminosity() # read raw values (full spectrum and ir spectrum)
+	lux = tsl.calculate_lux(full, ir) # convert raw values to lux
 		
         if humidity is not None and temperature is not None:
             logger.info('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
         else:
             logger.error('Error failed to get reading from DHT11 sensor. Try again!')
             raise
-		if lux is not None:
-			logger.info('Lux={0:0.1f}lux'.format(lux))
-		else:
+	if lux is not None:
+		logger.info('Lux={0:0.1f}lux'.format(lux))
+	else:
             logger.error('Error failed to get reading from TSL2591 sensor. Try again!')
             raise
 
@@ -52,7 +54,7 @@ try:
         mosquitto_client.on_publish = on_publish
         mosquitto_client.publish(humidity_topic, '{{"humidity": {humidity}}}'.format(humidity=humidity,))
         mosquitto_client.publish(temperature_topic, '{{"temperature": {temperature}}}'.format(temperature=temperature,))
-        mosquitto_client.publish(lux_topic, '{{"lux": {lux}}}'.format(lux=lux,))
+        mosquitto_client.publish(lux_topic, '{{"lux": {0:0.2f}}}'.format(lux))
 
         keen_client = KeenClient(
             project_id=keen_project_id,  # your project ID for collecting cycling data
@@ -64,7 +66,7 @@ try:
         keen_client.add_event("fungi_dht11", {
             "temperature": temperature,
             "humidity": humidity,
-            "lux": lux
+            "lux": float('{0:0.2f}'.format(lux))
         })
         time.sleep(60)
 

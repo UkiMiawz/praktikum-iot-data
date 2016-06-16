@@ -8,7 +8,7 @@ papertrail_port= PAPERTRAIL_PORT
 papertrail_host= PAPERTRAIL_HOST
 
 class ContextFilter(logging.Filter):
-    hostname = socket.gethostname()
+    hostname = "raspberrypi-mr-garcia"
 
     def filter(self, record):
         record.hostname = ContextFilter.hostname
@@ -22,7 +22,7 @@ def get_logger():
     logger.addFilter(f)
 
     syslog = SysLogHandler(address=(papertrail_host, papertrail_port))
-    formatter = logging.Formatter('%(asctime)s %(hostname)s FUNGAPI: %(message)s', datefmt='%b %d %H:%M:%S')
+    formatter = logging.Formatter('%(asctime)s raspberrypi-mr-garcia FUNGAPI: %(message)s', datefmt='%b %d %H:%M:%S')
 
     syslog.setFormatter(formatter)
     logger.addHandler(syslog)
