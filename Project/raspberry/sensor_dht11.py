@@ -4,6 +4,7 @@ import Adafruit_DHT
 import traceback
 import time
 import app_logging
+import tsl2591
 
 from keen.client import KeenClient
 from settings import *
@@ -30,10 +31,17 @@ try:
     while True:
         #generate data
         humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+		full, ir = tsl.get_full_luminosity() # read raw values (full spectrum and ir spectrum)
+		lux = tsl.calculate_lux(full, ir) # convert raw values to lux
         if humidity is not None and temperature is not None:
             logger.info('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
         else:
-            logger.error('Error failed to get reading. Try again!')
+            logger.error('Error failed to get reading from DHT11 sensor. Try again!')
+            raise
+		if lux is not None:
+			logger.info('Lux={0:0.1f}lux'.format(lux))
+		else:
+            logger.error('Error failed to get reading from TSL2591 sensor. Try again!')
             raise
 
         mosquitto_client = mqtt.Client()
@@ -43,6 +51,7 @@ try:
         mosquitto_client.on_publish = on_publish
         mosquitto_client.publish(humidity_topic, '{{"humidity": {humidity}}}'.format(humidity=humidity,))
         mosquitto_client.publish(temperature_topic, '{{"temperature": {temperature}}}'.format(temperature=temperature,))
+        mosquitto_client.publish(lux_topic, '{{"lux": {lux}}}'.format(lux=lux,))
 
         keen_client = KeenClient(
             project_id=keen_project_id,  # your project ID for collecting cycling data
@@ -53,7 +62,8 @@ try:
 
         keen_client.add_event("fungi_dht11", {
             "temperature": temperature,
-            "humidity": humidity
+            "humidity": humidity,
+            "lux": lux
         })
         time.sleep(60)
 
