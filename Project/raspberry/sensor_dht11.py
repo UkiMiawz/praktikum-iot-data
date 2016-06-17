@@ -33,6 +33,7 @@ try:
         humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 		full, ir = tsl.get_full_luminosity() # read raw values (full spectrum and ir spectrum)
 		lux = tsl.calculate_lux(full, ir) # convert raw values to lux
+		
         if humidity is not None and temperature is not None:
             logger.info('Temp={0:0.1f}*C  Humidity={1:0.1f}%'.format(temperature, humidity))
         else:
