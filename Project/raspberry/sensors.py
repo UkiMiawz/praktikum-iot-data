@@ -70,19 +70,19 @@ try:
 		mosquitto_client.publish(lux_topic, '{{"lux": {0:0.2f}}}'.format(lux))
 
 		#separate events into each topic
-		keen_client.add_event(KEEN_HUMIDITY_TOPIC, {
-			"humidity": humidity
-		})
+        keen_client.add_events({
+            KEEN_HUMIDITY_TOPIC: [
+                { "humidity": humidity }
+            ],
+            KEEN_TEMPERATURE_TOPIC: [
+                { "temperature": temperature }
+            ],
+            KEEN_LUX_TOPIC: [
+                { "lux": float('{0:0.2f}'.format(lux)) }
+            ]
+        })
 
-		keen_client.add_event(KEEN_TEMPERATURE_TOPIC, {
-			"temperature": temperature
-		})
-
-		keen_client.add_event(KEEN_LUX_TOPIC, {
-			"lux": float('{0:0.2f}'.format(lux))
-		})
-
-		time.sleep(TIME_INTERVAL)
+        time.sleep(TIME_INTERVAL)
 
 except:
 
