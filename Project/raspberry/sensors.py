@@ -51,11 +51,13 @@ try:
         url = urlparse.urlparse("mqtt://{host}:{port}".format(host=mqtt_host, port=mqtt_port))
         mosquitto_client.connect(url.hostname, url.port)
 
+        #publish to eclipse messaging
         mosquitto_client.on_publish = on_publish
         mosquitto_client.publish(humidity_topic, '{{"humidity": {humidity}}}'.format(humidity=humidity,))
         mosquitto_client.publish(temperature_topic, '{{"temperature": {temperature}}}'.format(temperature=temperature,))
         mosquitto_client.publish(lux_topic, '{{"lux": {0:0.2f}}}'.format(lux))
 
+        #push to keen
         keen_client = KeenClient(
             project_id=keen_project_id,  # your project ID for collecting cycling data
             write_key=keen_write_key,
@@ -63,12 +65,20 @@ try:
             master_key=keen_master_key
         )
 
-        keen_client.add_event("fungi_dht11", {
-            "temperature": temperature,
-            "humidity": humidity,
+        #separate events into each topic
+        keen_client.add_event(KEEN_HUMIDITY_TOPIC, {
+            "humidity": humidity
+        })
+
+        keen_client.add_event(KEEN_TEMPERATURE_TOPIC, {
+            "temperature": temperature
+        })
+
+        keen_client.add_event(KEEN_LUX_TOPIC, {
             "lux": float('{0:0.2f}'.format(lux))
         })
-        time.sleep(60)
+
+        time.sleep(TIME_INTERVAL)
 
 except:
     trace = traceback.format_exc()
