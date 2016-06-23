@@ -346,7 +346,7 @@ var Charts = function () {
                 if(data != null){
                     temperatureData.push(data.result[0].temperature);
                     temperature(); 
-                    setTimeout(function(){
+                    setTimeout(function(){ 
                         updateLastValueTemperature();
                     },60000);
                }  

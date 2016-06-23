@@ -14,7 +14,7 @@ var EVENT_COLLECTION = "fungi_lux";
 var KEEN_GET_LASTEST_LUX= "https://api.keen.io/3.0/projects/"+PROJECT_ID+"/queries/extraction?api_key="+API_KEY+"&event_collection="+EVENT_COLLECTION+"&latest=1&timeframe=this_1_years&filters=%5B%5D";
 
 
-
+ 
 var RESULT_SIZE = 10;
 
 var EVENT_COLLECTION = "fungi_temperature";
