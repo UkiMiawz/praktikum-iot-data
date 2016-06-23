@@ -20,7 +20,6 @@ var App = function () {
     	$(".mainLoading").hide();
     	$(".main").removeClass("hidden");
         
-
     	$( window ).resize(function() { 
             updateIsland();
     	    Charts.updateCharts();
@@ -234,33 +233,68 @@ var App = function () {
     function updateIsland(){
         setTimeout(function(){
             $(".island").css({"top": (($(window).height()/2)-($(".mushrooms").height()/2))});   
-        },100);
-         
-    } 
+        },100);  
+    }
 
     function refreshValues(){ 
-        $.ajax({  
-            url: KEEN_GET_LASTEST_VALUES, 
-            dataType: "json",
-            crossDomain: true, 
-            success: function (data) {
-                if(data != null){
-                    setTemperature(data.result[0].temperature);
-                    setHumidity(data.result[0].humidity);
-                    setLastContactWithServer(data.result[0].keen.timestamp);
-                }  
-            },
-            error: function(requestObject, error, errorThrown) {
-                    console.log(error);
-                    console.log(errorThrown);
-            }
-        }); 
-    	setLight(getRandomInt(0, 300));
-    	
-    	setTimeout(function(){
-    		refreshValues();
-    	},9000); 
+            $.ajax({  
+                url: KEEN_GET_LASTEST_TEMPERATURE, 
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                crossDomain: true, 
+                success: function (data) { 
+                    if(data != null){
+                        console.log("Temperature: "+data.result[0].temperature);
+                        setTemperature(data.result[0].temperature);
+                        setLastContactWithServer(data.result[0].keen.timestamp);
+                    }  
+                },
+                error: function(requestObject, error, errorThrown) {
+                        console.log(error);
+                        console.log(errorThrown);
+                }
+            }); 
+
+            $.ajax({  
+                url: KEEN_GET_LASTEST_HUMIDITY, 
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                crossDomain: true, 
+                success: function (data) {
+                    if(data != null){
+                        console.log("Humidity: "+data.result[0].humidity);
+                        setHumidity(data.result[0].humidity);
+                        setLastContactWithServer(data.result[0].keen.timestamp);
+                    }  
+                },
+                error: function(requestObject, error, errorThrown) {
+                        console.log(error);
+                        console.log(errorThrown);
+                }
+            }); 
+
+            $.ajax({  
+                url: KEEN_GET_LASTEST_LUX, 
+                dataType: "json",
+                contentType: 'application/json; charset=utf-8',
+                crossDomain: true, 
+                success: function (data) {
+                    if(data != null){
+                        console.log("light: "+data.result[0].lux);
+                        setLight(data.result[0].lux);
+                        setLastContactWithServer(data.result[0].keen.timestamp);
+                    }  
+                },
+                error: function(requestObject, error, errorThrown) {
+                        console.log(error);
+                        console.log(errorThrown);
+                }
+            });  
+            setTimeout(function(){
+                refreshValues();
+            },9000); 
     }
+
 
     function setLastContactWithServer(date){
         date = moment.tz(date, TIMEZONE);
@@ -296,52 +330,132 @@ var Charts = function () {
 
     var temperatureData = []; 
     var humidityData = []; 
-    var lightData = []; 
+    var lightData = [];   
 
-    function updateLastValue(){
+    function convertDateToUnix(date){  
+        return moment(date).unix();
+    }
+
+    function updateLastValueTemperature(){
         $.ajax({  
-            url: KEEN_GET_LASTEST_VALUES, 
+            url: KEEN_GET_LASTEST_TEMPERATURE, 
             dataType: "json",
+            contentType: 'application/json; charset=utf-8',
             crossDomain: true, 
             success: function (data) {
-                if(data != null){ 
-                    data.result[0].keen.timestamp= convertDateToUnix(data.result[0].keen.timestamp); 
-                    // temperatureData.push([Math.round(+new Date()/1000), data.result[0].temperature]);
-                    temperatureData.push([data.result[0].keen.timestamp, data.result[0].temperature]);
-                    humidityData.push([data.result[0].keen.timestamp, data.result[0].humidity]); 
-                    temperature();
-                    humidity();
-                    setTimeout(updateLastValue,60000);
-                }  
+                if(data != null){
+                    temperatureData.push(data.result[0].temperature);
+                    temperature(); 
+                    setTimeout(function(){
+                        updateLastValueTemperature();
+                    },60000);
+               }  
+            },
+            error: function(requestObject, error, errorThrown) {
+                   console.log(error);
+                   console.log(errorThrown);
+            }
+        }); 
+    }
+
+    function updateLastValueHumidity(){
+        $.ajax({  
+            url: KEEN_GET_LASTEST_HUMIDITY, 
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            crossDomain: true, 
+            success: function (data) {
+                if(data != null){
+                    humidityData.push(data.result[0].humidity);
+                    humidity(); 
+                    setTimeout(function(){
+                        updateLastValueHumidity();
+                    },60000);
+                   }  
+               },
+            error: function(requestObject, error, errorThrown) {
+                console.log(error);
+                console.log(errorThrown);
+           }
+        }); 
+    }
+
+    function updateLastValueLight(){
+        $.ajax({  
+            url: KEEN_GET_LASTEST_LUX, 
+            dataType: "json",
+            contentType: 'application/json; charset=utf-8',
+            crossDomain: true, 
+            success: function (data) {
+                if(data != null){  
+                    lightData.push([convertDateToUnix(data.result[0].keen.timestamp), data.result[0].lux ]);  
+                    light(); 
+                    setTimeout(function(){
+                        updateLastValueLight();
+                    },60000);
+                                    }  
             },
             error: function(requestObject, error, errorThrown) {
                     console.log(error);
                     console.log(errorThrown);
             }
         }); 
-    }
-
-    function convertDateToUnix(date){
-        return moment.tz(date, TIMEZONE).unix();
-    }
+    }  
 
     function initData(){
-         
-        $.ajax({  
-            url: KEEN_GET_LASTEST_VALUES, 
+       $.ajax({  
+            url: KEEN_GET_VALUES_TEMPERATURE, 
             dataType: "json",
             crossDomain: true, 
             success: function (data) {
                 if(data != null){
                     $.each(data.result, function(i, item) { 
                         item.keen.timestamp= convertDateToUnix(item.keen.timestamp); 
-                        temperatureData.push([item.keen.timestamp, item.temperature]);
-                        humidityData.push([item.keen.timestamp, item.humidity]); 
+                        temperatureData.push([item.keen.timestamp, item.temperature]); 
                     });  
-                    temperature();
-                    humidity();
+                    temperature(); 
+                    updateLastValueTemperature(); 
+                    $("#tabTemperature .chartLoading").hide();
+                }  
+            },
+            error: function(requestObject, error, errorThrown) {
+                    console.log(error);
+                    console.log(errorThrown);
+            }
+        });
+        $.ajax({  
+            url: KEEN_GET_VALUES_HUMIDITY, 
+            dataType: "json",
+            crossDomain: true, 
+            success: function (data) {
+                if(data != null){
+                    $.each(data.result, function(i, item) { 
+                        item.keen.timestamp= convertDateToUnix(item.keen.timestamp); 
+                        humidityData.push([item.keen.timestamp, item.humidity]); 
+                    });   
+                    humidity(); 
+                    updateLastValueHumidity();
+                    $("#tabHumidity .chartLoading").hide();
+                }  
+            },
+            error: function(requestObject, error, errorThrown) {
+                    console.log(error);
+                    console.log(errorThrown);
+            }
+        });
+        $.ajax({  
+            url: KEEN_GET_VALUES_LUX, 
+            dataType: "json",
+            crossDomain: true, 
+            success: function (data) {
+                if(data != null){
+                    $.each(data.result, function(i, item) { 
+                        item.keen.timestamp= convertDateToUnix(item.keen.timestamp);  
+                        lightData.push([item.keen.timestamp, item.lux]); 
+                    });   
                     light(); 
-                    updateLastValue();
+                    updateLastValueLight();
+                    $("#tabLight .chartLoading").hide();
                 }  
             },
             error: function(requestObject, error, errorThrown) {
@@ -357,14 +471,10 @@ var Charts = function () {
         ];
 
         var options = {
-            lines: {
-                show: true
-            },
-            points: {
-                show: true
-            },
+            lines: { show: true },
+            points: { show: true},
             canvas: true,
-            colors: ["#007DF9"],
+            colors: ["#E81E03"],
             xaxes: [ { mode: "time" } ],
             yaxes: [ { min: 0 }, {
                 position: "right",
@@ -384,12 +494,8 @@ var Charts = function () {
         ];
 
         var options = {
-            lines: {
-                show: true
-            },
-            points: {
-                show: true
-            },
+            lines: { show: true },
+            points: { show: true},
             canvas: true,
             colors: ["#007DF9"],
             xaxes: [ { mode: "time" } ],
@@ -397,7 +503,7 @@ var Charts = function () {
                 position: "right",
                 alignTicksWithAxis: 1,
                 tickFormatter: function(value, axis) {
-                return value.toFixed(axis.tickDecimals) + "°";
+                return value.toFixed(axis.tickDecimals) + "%";
             }
          }],
          legend: { position: "sw" }
@@ -407,23 +513,34 @@ var Charts = function () {
 
     function  light() { 
         var data = [
-                 { data: lightData, label: "light (lx)" }, 
-        ];
+                 { data: lightData, label: "Light (lx)" }, 
+        ]; 
 
         var options = {
-         canvas: true,
-         colors: ["#FCD200"],
-         xaxes: [ { mode: "time" } ],
-         yaxes: [ { min: 0 }, {
-             position: "right",
-             alignTicksWithAxis: 1,
-             tickFormatter: function(value, axis) {
-                 return value.toFixed(axis.tickDecimals) + "°";
-             }
-         } ],
-         legend: { position: "sw" }
+            lines: { show: true },
+            points: { show: true}, 
+            colors: ["#FFDE1D"],
+            xaxes:  [ {
+                mode: "time",
+                tickSize: [2, "second"],
+                tickFormatter: function (v, axis) {  
+                    return moment.tz(moment.unix(v),TIMEZONE).format("HH:mm:ss");
+                },
+            } ],
+
+
+            yaxes: [ { min: 0 }, {
+                position: "right",
+                alignTicksWithAxis: 1,
+                tickFormatter: function(value, axis) {
+                    return value.toFixed(axis.tickDecimals) + "lx";
+                }
+            }],
+            legend: { position: "sw" }
         } 
-        chartLight = $.plot("#chartLight", data, options);                
+        chartLight = $.plot("#chartLight", data, options);
+        chartLight.setupGrid();
+        chartLight.draw();                
     }
 
     return {
@@ -432,25 +549,33 @@ var Charts = function () {
         },
 
         updateChartTemperature: function () { 
-         setTimeout(function(){
-             chartTemperature.resize(); 
-             chartTemperature.setupGrid();
-             chartTemperature.draw();
-         },200);
+            if(chartTemperature != undefined){
+                setTimeout(function(){
+                    chartTemperature.resize(); 
+                    chartTemperature.setupGrid();
+                    chartTemperature.draw();
+                },200);   
+            }
+                
         },
-        updateChartHumidity: function () { 
-         setTimeout(function(){
-             chartHumidity.resize(); 
-             chartHumidity.setupGrid();
-             chartHumidity.draw();
-         },200); 
+        updateChartHumidity: function () {
+            if(chartHumidity != undefined){
+                setTimeout(function(){
+                   chartHumidity.resize(); 
+                   chartHumidity.setupGrid();
+                   chartHumidity.draw();
+                },200); 
+            } 
+          
         },
         updateChartLight: function () { 
-         setTimeout(function(){
-             chartLight.resize(); 
-             chartLight.setupGrid();
-             chartLight.draw();
-         },200);
+            if(chartLight != undefined){
+                setTimeout(function(){
+                    chartLight.resize(); 
+                    chartLight.setupGrid();
+                    chartLight.draw();
+                },200);
+            } 
         },
 
         updateTimeline: function () { 
@@ -458,6 +583,7 @@ var Charts = function () {
         },
 
         updateCharts: function(){ 
+
             Charts.updateChartTemperature();
             Charts.updateChartHumidity();
             Charts.updateChartLight(); 
