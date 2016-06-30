@@ -1,1 +1,9 @@
-"// These rules give anyone, even people who are not users of your app,\n// read and write access to your database\n{\n  \"rules\": {\n    \".read\": true,\n    \".write\": true\n  }\n}"
+{
+  "rules": {
+    ".read": true,
+    ".write": true,
+    "$banana": {
+      ".indexOn": ["key"]
+    }
+  }
+}
