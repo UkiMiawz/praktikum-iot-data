@@ -292,7 +292,7 @@ var App = function () {
             });  
             setTimeout(function(){
                 refreshValues();
-            },9000); 
+            },600000); 
     }
 
 
