@@ -5,6 +5,9 @@ import traceback
 import time
 import app_logging
 import tsl2591
+import pyrebase
+
+from datetime import datetime
 
 from keen.client import KeenClient
 from settings import *
@@ -42,6 +45,18 @@ try:
 		read_key=keen_read_key,
 		master_key=keen_master_key
 	)
+
+	#firebase database
+	config = {
+		"apiKey": FIREBASE_API_KEY,
+		"authDomain": FIREBASE_AUTH_DOMAIN,
+		"databaseURL": FIREBASE_DATABASE_URL,
+		"storageBucket": FIREBASE_STORAGE_BUCKET,
+		"serviceAccount": FIREBASE_SERVICE_ACCOUNT,
+	}
+
+	firebase = pyrebase.initialize_app(config)
+	db = firebase.database()
 
 	while True:
 
@@ -84,6 +99,37 @@ try:
 		})
 		logger.info("Publish to Keen")
 		logger.info("Wait for 1 minute")
+
+		#save to firebase database
+		current_timestamp = time.time()
+		current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+		data = {
+			"humidity": humidity,
+			"timestamp": current_timestamp,
+			"created_at": current_datetime,
+		}
+		logger.info("Adding humidity data to firebase")
+		logger.info(data)
+		db.child(FIREBASE_HUMIDITY_DATA).push(data)
+
+		data = {
+			"temperature": temperature,
+			"timestamp": current_timestamp,
+			"created_at": current_datetime,
+		}
+		logger.info("Adding temperature data to firebase")
+		logger.info(data)
+		db.child(FIREBASE_TEMPERATURE_DATA).push(data)
+
+		data = {
+			"lux": lux,
+			"timestamp": current_timestamp,
+			"created_at": current_datetime,
+		}
+		logger.info("Adding lux data to firebase")
+		logger.info(data)
+		db.child(FIREBASE_LUX_DATA).push(data)
 
 		time.sleep(TIME_INTERVAL)
 

@@ -1,0 +1,28 @@
+.chart-container {
+    width: 100%;
+    height: 450px;
+    padding: 0px;
+    margin: 5px auto; 
+    background: white;  
+}
+
+.contentTable{
+	overflow: hidden;
+	position: relative;
+	top: 0;
+	height: 100%;
+}
+
+.contentTable .chartLoading img{
+	top: calc(50% + (-60px));
+}
+
+.contentTable .chartLoading p{
+	position: relative;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	top: calc(50% + (-50px));
+	font-family: "caviar_dreamsregular";
+	font-weight: 600; 
+}

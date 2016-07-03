@@ -17,6 +17,16 @@ KEEN_HUMIDITY_TOPIC= os.getenv('KEEN_HUMIDITY_TOPIC', 'fungi_humidity')
 KEEN_TEMPERATURE_TOPIC= os.getenv('KEEN_TEMPERATURE_TOPIC', 'fungi_temperature')
 KEEN_LUX_TOPIC= os.getenv('KEEN_LUX_TOPIC', 'fungi_lux')
 
+FIREBASE_HUMIDITY_DATA= os.getenv('KEEN_HUMIDITY_TOPIC', 'fungi_humidity')
+FIREBASE_TEMPERATURE_DATA= os.getenv('KEEN_TEMPERATURE_TOPIC', 'fungi_temperature')
+FIREBASE_LUX_DATA= os.getenv('KEEN_LUX_TOPIC', 'fungi_lux')
+
+FIREBASE_API_KEY= os.getenv('FIREBASE_API_KEY', 'AIzaSyBnL_5ytcAcj6Pgdg2Rtq0ApHyOhNXqiis')
+FIREBASE_AUTH_DOMAIN= os.getenv('FIREBASE_AUTH_DOMAIN', 'fungi-5edf1.firebaseapp.com')
+FIREBASE_DATABASE_URL= os.getenv('FIREBASE_DATABASE_URL', 'https://fungi-5edf1.firebaseio.com')
+FIREBASE_STORAGE_BUCKET= os.getenv('FIREBASE_STORAGE_BUCKET', 'fungi-5edf1.appspot.com')
+FIREBASE_SERVICE_ACCOUNT= os.getenv('FIREBASE_SERVICE_ACCOUNT', 'Fungi-0228318210c6.json')
+
 PAPERTRAIL_PORT= os.getenv('PAPERTRAIL_PORT', 24525)
 PAPERTRAIL_HOST= os.getenv('PAPERTRAIL_HOST', 'logs4.papertrailapp.com')
 
