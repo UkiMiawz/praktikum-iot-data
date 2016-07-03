@@ -9,7 +9,7 @@ client = mqtt.Client()
 
 client.on_subscribe = on_subscribe
 
-url_str = os.environ.get('CLOUDMQTT_URL', 'mqtt://localhost:1883')
+url_str = os.environ.get('CLOUDMQTT_URL', 'mqtt://192.76.241.164:1883')
 url = urlparse.urlparse(url_str)
 client.connect(url.hostname, url.port)
 
