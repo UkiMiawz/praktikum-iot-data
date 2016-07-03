@@ -76,25 +76,21 @@
           <div class="sunshine front"></div>
           <div class="charts">
             <div>
-              <a onclick="Charts.updateChartTemperature();" data-toggle="temperature">
+              <a onclick="Charts.updateChart('chartTemperature');" data-toggle="temperature">
                 <img class="img-responsive" src="images/chartTermometer.svg"/>
               </a>
             </div>
             <div>
-              <a onclick="Charts.updateChartHumidity();" data-toggle="humidity">
+              <a onclick="Charts.updateChart('chartHumidity');" data-toggle="humidity">
                 <img class="img-responsive" src="images/chartHumidity.svg"/>
               </a>
             </div>
             <div>
-              <a onclick="Charts.updateChartLight();" data-toggle="light">
+              <a onclick="Charts.updateChart('chartLight');" data-toggle="light">
                 <img class="img-responsive" src="images/chartLight.svg"/>
               </a>
             </div>
-            <div>
-              <a onclick="Charts.updateTimeline();" data-toggle="timeline">
-                <img class="img-responsive" src="images/champiMessages.svg"/>
-              </a>
-            </div>
+            
             <div>
               <a>
                 <img class="img-responsive" src="images/watering.svg"/>
@@ -121,25 +117,20 @@
                 <div class="tabbable">
                   <ul class="nav nav-tabs "> 
                     <li class="active">
-                      <a href="#tabTemperature" onclick="Charts.updateChartTemperature();" data-name="temperature" data-toggle="tab">
+                      <a href="#tabTemperature" onclick="Charts.updateChart('chartTemperature');" data-name="temperature" data-toggle="tab">
                          Temperature
                       </a>
                     </li>
                     <li>
-                      <a href="#tabHumidity" onclick="Charts.updateChartHumidity();" data-name="humidity" data-toggle="tab">
+                      <a href="#tabHumidity" onclick="Charts.updateChart('chartHumidity');" data-name="humidity" data-toggle="tab">
                          Humidity
                       </a>
                     </li> 
                     <li>
-                      <a href="#tabLight" onclick="Charts.updateChartLight();" data-name="light" data-toggle="tab">
+                      <a href="#tabLight" onclick="Charts.updateChart('chartLight');" data-name="light" data-toggle="tab">
                          Light
                       </a>
-                    </li>
-                    <li>
-                      <a href="#tabTimeline" onclick="Charts.updateTimeline();" data-name="timeline" data-toggle="tab">
-                         Timeline
-                      </a>
-                    </li>
+                    </li> 
 
                    <!--  <li class="pull-right">
                       <div class="date">
@@ -211,15 +202,20 @@
     <script src="js/parameters.js"></script>  
     <script src="js/plugins/moment.min.js"></script>
     <script src="js/plugins/moment-timezone.min.js"></script>
+
+    <script src="js/plugins/firebase.js"></script>
     
     <script src="js/app.js"></script>  
     <script type="text/javascript">
-
+    var ref;
     jQuery(document).ready(function() {  
         App.init(); 
         setTimeout(function(){
           Charts.init();
         },500);
+
+         
+
     });
     </script>
   </body>

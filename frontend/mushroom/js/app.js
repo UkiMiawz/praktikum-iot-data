@@ -10,8 +10,7 @@ var App = function () {
     var previousTemperature = 0;
     var previousHumidity = 0;
 
-    function initWindow(){ 
-        
+    function initWindow(){  
         setTimeout(function(){ 
             updateIsland();
             setDealHeight();
@@ -47,8 +46,6 @@ var App = function () {
              $(this).css({"top":(($(".dial").height()-$(this).height())/2)+$(this).height()/22});
         });
     }
-
-    //this is a comment change
 
 	function  creatStatusBarWidget(){
 		dialTemperature = new JustGage({
@@ -160,7 +157,6 @@ var App = function () {
         });
 	}
 
-
 	function setTemperature(val){  
         currentTemperature = val;
             if(currentTemperature<29){
@@ -201,7 +197,6 @@ var App = function () {
         $(".mist, .mist, .backCloud, .frontCloud").css({"opacity": (currentHumidity/100) }); 
 		updateChampiState();
 	}
- 
 
 	function updateChampiState(){ 
 		if(currentTemperature < 18 ){
@@ -256,67 +251,41 @@ var App = function () {
         },100);  
     }
 
-    function refreshValues(){ 
-            $.ajax({  
-                url: KEEN_GET_LASTEST_TEMPERATURE, 
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                crossDomain: true, 
-                success: function (data) { 
-                    if(data != null){ 
-                        setTemperature(data.result[0].temperature);
-                        setLastContactWithServer(data.result[0].keen.timestamp);
-                    }  
-                },
-                error: function(requestObject, error, errorThrown) {
-                        console.log(error);
-                        console.log(errorThrown);
-                }
+    function readFirebase(){  
+            var refTemp = new Firebase(COLLECTION_TEMPERATURE);
+            refTemp.limitToLast(1).on("child_added", function(snapshot, prevChildKey) { 
+                var time = snapshot.val().timestamp;
+                var val = snapshot.val().temperature;
+                setTemperature(val);
+                setLastContactWithServer(time); 
+                Charts.addTemperatureValueChart(time,val+5);
             }); 
 
-            $.ajax({  
-                url: KEEN_GET_LASTEST_HUMIDITY, 
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                crossDomain: true, 
-                success: function (data) {
-                    if(data != null){ 
-                        setHumidity(data.result[0].humidity);
-                        setLastContactWithServer(data.result[0].keen.timestamp);
-                    }  
-                },
-                error: function(requestObject, error, errorThrown) {
-                        console.log(error);
-                        console.log(errorThrown);
-                }
-            }); 
+            refHumidity = new Firebase(COLLECTION_HUMIDITY);
+            refHumidity.limitToLast(1).on("child_added", function(snapshot, prevChildKey) {
+                var time = snapshot.val().timestamp;
+                var val = snapshot.val().humidity; 
+                setHumidity(val);
+                setLastContactWithServer(time);
+                Charts.addHumidityValueChart(time,val); 
 
-            $.ajax({  
-                url: KEEN_GET_LASTEST_LUX, 
-                dataType: "json",
-                contentType: 'application/json; charset=utf-8',
-                crossDomain: true, 
-                success: function (data) {
-                    if(data != null){ 
-                        setLight(data.result[0].lux);
-                        setLastContactWithServer(data.result[0].keen.timestamp);
-                    }  
-                },
-                error: function(requestObject, error, errorThrown) {
-                        console.log(error);
-                        console.log(errorThrown);
-                }
+            });
+
+            refLux = new Firebase(COLLECTION_LUX);
+            refLux.limitToLast(1).on("child_added", function(snapshot, prevChildKey) { 
+                var time = snapshot.val().timestamp;
+                var val = snapshot.val().lux; 
+                setLight(val);
+                setLastContactWithServer(time);
+                Charts.addLightValueChart(time,val); 
             });  
-            setTimeout(function(){
-                refreshValues();
-            },600000); 
     }
 
 
     function setLastContactWithServer(date){
-        date = moment.tz(date, TIMEZONE);
+        date = moment.tz(moment.unix(date),TIMEZONE);
         $(".time").html(date.format("hh:mm:ss"));
-        $(".date").html(date.format("MMM.DD.YYYY").toUpperCase()); 
+        $(".date").html(date.format("MMM.DD.YYYY").toUpperCase());  
     }
 
     return {
@@ -324,22 +293,18 @@ var App = function () {
         init: function () {
         	initWindow();
         	creatStatusBarWidget();  
-        	refreshValues();
-        },
-
-        update: function(){
-        	refreshValues();
-        },
+        	readFirebase();
+        }, 
+        
         temperature: function(val){
             setTemperature(val);
         },
         humidity: function(val){
             setHumidity(val);
         },
-
-        dial: function(){
-            return dialLight;
-        }
+        lux: function(val){
+            setLight(val);
+        },  
     };
 
 }();
@@ -357,140 +322,27 @@ var Charts = function () {
         return moment(date).unix();
     }
 
-    function updateLastValueTemperature(){
-        $.ajax({  
-            url: KEEN_GET_LASTEST_TEMPERATURE, 
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            crossDomain: true, 
-            success: function (data) {
-                if(data != null){
-                    temperatureData.push(data.result[0].temperature);
-                    temperature(); 
-                    setTimeout(function(){ 
-                        updateLastValueTemperature();
-                    },60000);
-               }  
-            },
-            error: function(requestObject, error, errorThrown) {
-                   console.log(error);
-                   console.log(errorThrown);
-            }
+    function initTemperatureChart(){
+        refTemperatureChart = new Firebase(COLLECTION_TEMPERATURE);
+        refTemperatureChart.limitToLast(1).on("value", function(snapshot) {
+        console.log(snapshot);
+            $("#tabTemperature .chartLoading").hide(); 
+            $.each(snapshot.val(), function(i, item) {  
+                temperatureData.push([Math.ceil(item.timestamp), item.temperature]);   
+                data = [{ data: temperatureData, label: "Temperature (°)" },]; 
+                temperature(data);
+            }); 
+
         }); 
     }
 
-    function updateLastValueHumidity(){
-        $.ajax({  
-            url: KEEN_GET_LASTEST_HUMIDITY, 
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            crossDomain: true, 
-            success: function (data) {
-                if(data != null){
-                    humidityData.push(data.result[0].humidity);
-                    humidity(); 
-                    setTimeout(function(){
-                        updateLastValueHumidity();
-                    },60000);
-                   }  
-               },
-            error: function(requestObject, error, errorThrown) {
-                console.log(error);
-                console.log(errorThrown);
-           }
-        }); 
+    function addTemperature(time,val){ 
+        temperatureData.push([val,time]);  
+        data = [{ data: temperatureData, label: "Temperature (°)" }]; 
+        temperature(data); 
     }
 
-    function updateLastValueLight(){
-        $.ajax({  
-            url: KEEN_GET_LASTEST_LUX, 
-            dataType: "json",
-            contentType: 'application/json; charset=utf-8',
-            crossDomain: true, 
-            success: function (data) {
-                if(data != null){  
-                    lightData.push([convertDateToUnix(data.result[0].keen.timestamp), data.result[0].lux ]);  
-                    light(); 
-                    setTimeout(function(){
-                        updateLastValueLight();
-                    },60000);
-                                    }  
-            },
-            error: function(requestObject, error, errorThrown) {
-                    console.log(error);
-                    console.log(errorThrown);
-            }
-        }); 
-    }  
-
-    function initData(){
-       $.ajax({  
-            url: KEEN_GET_VALUES_TEMPERATURE, 
-            dataType: "json",
-            crossDomain: true, 
-            success: function (data) {
-                if(data != null){
-                    $.each(data.result, function(i, item) { 
-                        item.keen.timestamp= convertDateToUnix(item.keen.timestamp); 
-                        temperatureData.push([item.keen.timestamp, item.temperature]); 
-                    });  
-                    temperature(); 
-                    updateLastValueTemperature(); 
-                    $("#tabTemperature .chartLoading").hide();
-                }  
-            },
-            error: function(requestObject, error, errorThrown) {
-                    console.log(error);
-                    console.log(errorThrown);
-            }
-        });
-        $.ajax({  
-            url: KEEN_GET_VALUES_HUMIDITY, 
-            dataType: "json",
-            crossDomain: true, 
-            success: function (data) {
-                if(data != null){
-                    $.each(data.result, function(i, item) { 
-                        item.keen.timestamp= convertDateToUnix(item.keen.timestamp); 
-                        humidityData.push([item.keen.timestamp, item.humidity]); 
-                    });   
-                    humidity(); 
-                    updateLastValueHumidity();
-                    $("#tabHumidity .chartLoading").hide();
-                }  
-            },
-            error: function(requestObject, error, errorThrown) {
-                    console.log(error);
-                    console.log(errorThrown);
-            }
-        });
-        $.ajax({  
-            url: KEEN_GET_VALUES_LUX, 
-            dataType: "json",
-            crossDomain: true, 
-            success: function (data) {
-                if(data != null){
-                    $.each(data.result, function(i, item) { 
-                        item.keen.timestamp= convertDateToUnix(item.keen.timestamp);  
-                        lightData.push([item.keen.timestamp, item.lux]); 
-                    });   
-                    light(); 
-                    updateLastValueLight();
-                    $("#tabLight .chartLoading").hide();
-                }  
-            },
-            error: function(requestObject, error, errorThrown) {
-                    console.log(error);
-                    console.log(errorThrown);
-            }
-        });
-    }
-
-    function  temperature() {  
-        var data = [
-                 { data: temperatureData, label: "Temperature (°)" }, 
-        ];
-
+    function temperature(data) {  
         var options = {
             lines: { show: true },
             points: { show: true},
@@ -505,15 +357,11 @@ var Charts = function () {
                 }
             } ],
             legend: { position: "sw" }
-        }  
-        chartTemperature = $.plot("#chartTemperature", data, options); 
-    }
+        } 
+        chartTemperature = $.plot("#chartTemperature", data, options);   
+    } 
 
-    function  humidity() { 
-        var data = [
-                 { data: humidityData, label: "Humidity (%)" }, 
-        ];
-
+    function  humidity() {  
         var options = {
             lines: { show: true },
             points: { show: true},
@@ -532,11 +380,19 @@ var Charts = function () {
         chartHumidity = $.plot("#chartHumidity", data, options);              
     }
 
-    function  light() { 
-        var data = [
-                 { data: lightData, label: "Light (lx)" }, 
-        ]; 
+    function initLightChart(){ 
+        $("#tabLight .chartLoading").hide();    
+        data = [{ data: [], label: "Light (°)" },];
+        light(data); 
+    }
 
+    function addLight(time,val){ 
+        lightData.push([val,time]);  
+        data = [{ data: lightData, label: "Light (°)" }]; 
+        light(data); 
+    }
+
+    function  light(data) { 
         var options = {
             lines: { show: true },
             points: { show: true}, 
@@ -547,9 +403,7 @@ var Charts = function () {
                 tickFormatter: function (v, axis) {  
                     return moment.tz(moment.unix(v),TIMEZONE).format("HH:mm:ss");
                 },
-            } ],
-
-
+            } ], 
             yaxes: [ { min: 0 }, {
                 position: "right",
                 alignTicksWithAxis: 1,
@@ -559,56 +413,55 @@ var Charts = function () {
             }],
             legend: { position: "sw" }
         } 
-        chartLight = $.plot("#chartLight", data, options);
-        chartLight.setupGrid();
-        chartLight.draw();                
+        chartLight = $.plot("#chartLight", data, options);             
     }
 
+    
+
+    function updateChart(chart){ 
+        switch(chart){
+            case "chartTemperature": 
+                chart = chartTemperature;
+                break;
+                case "chartHumidity": 
+                chart = chartHumidity;
+            break;
+                case "chartLight": 
+                chart = chartLight;
+            break;
+        }  
+        setTimeout(function(){
+            chart.resize(); 
+            chart.setupGrid();
+            chart.draw();
+        },200); 
+    }
+
+
+
     return {
-        init: function () {
-            initData();
-        },
-
-        updateChartTemperature: function () { 
-            if(chartTemperature != undefined){
-                setTimeout(function(){
-                    chartTemperature.resize(); 
-                    chartTemperature.setupGrid();
-                    chartTemperature.draw();
-                },200);   
-            }
-                
-        },
-        updateChartHumidity: function () {
-            if(chartHumidity != undefined){
-                setTimeout(function(){
-                   chartHumidity.resize(); 
-                   chartHumidity.setupGrid();
-                   chartHumidity.draw();
-                },200); 
-            } 
-          
-        },
-        updateChartLight: function () { 
-            if(chartLight != undefined){
-                setTimeout(function(){
-                    chartLight.resize(); 
-                    chartLight.setupGrid();
-                    chartLight.draw();
-                },200);
-            } 
-        },
-
-        updateTimeline: function () { 
-            
-        },
-
-        updateCharts: function(){ 
-
-            Charts.updateChartTemperature();
-            Charts.updateChartHumidity();
-            Charts.updateChartLight(); 
+        init: function () { 
+            initTemperatureChart();
+            initLightChart();
         }, 
+        addTemperatureValueChart: function(time,val){
+            addTemperature(val, time);
+        }, 
+        addHumidityValueChart: function(time,val){
+            //addhumidity(val, time);
+        }, 
+        addLightValueChart: function(time,val){ 
+            addLight(val, time);
+        }, 
+        updateCharts: function(){  
+            updateChart("chartTemperature");
+            updateChart("chartHumidity");
+            updateChart("chartLight");       
+        }, 
+
+        updateChart: function(chart){
+            updateChart(chart);
+        } 
     };
 
 }();
