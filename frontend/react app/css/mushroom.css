@@ -164,12 +164,14 @@ body{
 
 .timestamp {
     font-family: "caviar_dreamsregular";
-    position: absolute;
     bottom: 15px;
     right: 15px;
     color: white;
     text-align: right;
-}
+    float: right;
+    width: 100%;
+    padding: 15px;
+} 
 
 .timestamp .time {
     font-size: 20px;
