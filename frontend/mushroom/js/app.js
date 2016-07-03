@@ -323,17 +323,9 @@ var Charts = function () {
     }
 
     function initTemperatureChart(){
-        refTemperatureChart = new Firebase(COLLECTION_TEMPERATURE);
-        refTemperatureChart.limitToLast(1).on("value", function(snapshot) {
-        console.log(snapshot);
-            $("#tabTemperature .chartLoading").hide(); 
-            $.each(snapshot.val(), function(i, item) {  
-                temperatureData.push([Math.ceil(item.timestamp), item.temperature]);   
-                data = [{ data: temperatureData, label: "Temperature (°)" },]; 
-                temperature(data);
-            }); 
-
-        }); 
+        $("#tabTemperature .chartLoading").hide();     
+        data = [{ data: [], label: "Light (°)" },];
+        temperature(data);  
     }
 
     function addTemperature(time,val){ 
@@ -360,6 +352,18 @@ var Charts = function () {
         } 
         chartTemperature = $.plot("#chartTemperature", data, options);   
     } 
+
+     function initHumidityChart(){ 
+        $("#tabHumidity .chartLoading").hide();    
+        data = [{ data: [], label: "Light (°)" },];
+        humidity(data); 
+    }
+
+    function addHumidity(time,val){ 
+        humidityData.push([val,time]);  
+        data = [{ data: humidityData, label: "Light (°)" }]; 
+        humidity(data); 
+    }
 
     function  humidity() {  
         var options = {
@@ -423,7 +427,7 @@ var Charts = function () {
             case "chartTemperature": 
                 chart = chartTemperature;
                 break;
-                case "chartHumidity": 
+            case "chartHumidity": 
                 chart = chartHumidity;
             break;
                 case "chartLight": 
@@ -442,13 +446,14 @@ var Charts = function () {
     return {
         init: function () { 
             initTemperatureChart();
+            initHumidityChart();
             initLightChart();
         }, 
         addTemperatureValueChart: function(time,val){
             addTemperature(val, time);
         }, 
         addHumidityValueChart: function(time,val){
-            //addhumidity(val, time);
+            addHumidity(val, time);
         }, 
         addLightValueChart: function(time,val){ 
             addLight(val, time);
