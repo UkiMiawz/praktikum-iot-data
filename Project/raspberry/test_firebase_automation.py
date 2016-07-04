@@ -19,7 +19,7 @@ current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 data = {
     "name": FIREBASE_LIGHT_NAME,
-    "value": 0,
+    "value": 1,
     "timestamp": current_timestamp,
     "created_at": current_datetime,
 }

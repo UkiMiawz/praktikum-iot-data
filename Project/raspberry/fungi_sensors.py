@@ -92,22 +92,26 @@ try:
 		last_light_automation = db.child("fungi_automation").order_by_child("name").equal_to("light").limit_to_last(1).get()
 
 		update_value = 0
+		last_value = 0
+
 		for last_value in last_light_automation.each():
-			value = last_value.val()
-			if value == 0:
+			last_value = last_value.val()
+			if last_value == 0:
 				if lux < LUX_MIN:
 					update_value = 1
 			else:
 				if lux > LUX_MAX:
 					update_value = 0
 
-		data = {
-			"name": FIREBASE_LIGHT_NAME,
-			"value": update_value,
-			"timestamp": current_timestamp,
-			"created_at": current_datetime,
-		}
-		db.child(FIREBASE_AUTOMATION_DATA).push(data)
+		#only update when the value changes
+		if(last_value != update_value):
+			data = {
+				"name": FIREBASE_LIGHT_NAME,
+				"value": update_value,
+				"timestamp": current_timestamp,
+				"created_at": current_datetime,
+			}
+			db.child(FIREBASE_AUTOMATION_DATA).push(data)
 
 		#count time needed to save to database
 		end_timestamp = time.time()

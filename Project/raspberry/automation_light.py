@@ -6,6 +6,7 @@ import app_logging
 logger = app_logging.get_logger()
 
 def turn_on(parameter):
+
 	GPIO.setwarnings(False)
 	GPIO.setmode(GPIO.BOARD)
 	# Pin 11 (GPIO 17) as output
