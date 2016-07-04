@@ -109,6 +109,8 @@ try:
 			"timestamp": current_timestamp,
 			"created_at": current_datetime,
 		}
+		logger.info("Adding humidity data to firebase")
+		logger.info(data)
 		db.child(FIREBASE_HUMIDITY_DATA).push(data)
 
 		data = {
@@ -116,6 +118,8 @@ try:
 			"timestamp": current_timestamp,
 			"created_at": current_datetime,
 		}
+		logger.info("Adding temperature data to firebase")
+		logger.info(data)
 		db.child(FIREBASE_TEMPERATURE_DATA).push(data)
 
 		data = {
@@ -123,6 +127,8 @@ try:
 			"timestamp": current_timestamp,
 			"created_at": current_datetime,
 		}
+		logger.info("Adding lux data to firebase")
+		logger.info(data)
 		db.child(FIREBASE_LUX_DATA).push(data)
 
 		time.sleep(TIME_INTERVAL)

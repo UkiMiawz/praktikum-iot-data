@@ -133,7 +133,7 @@ var App = function () {
             labelFontColor: "white", 
             value: 0,
             min: 0,
-            max: 4000, 
+            max: 200, 
             relativeGaugeSize: true, 
             startAnimationTime: 400,
             refreshAnimationTime: 400,
@@ -141,8 +141,8 @@ var App = function () {
             startAnimationTime: 2000,
             startAnimationType: ">",
             refreshAnimationTime: 1000,
-            color: '#8e8e93',
-            textRenderer: lightRangeValues,
+            color: '#8e8e93', 
+            label: "",
             humanFriendly: true,
             customSectors: [{
                   color : "#FFD600",
@@ -168,13 +168,13 @@ var App = function () {
             }else{
                 imageObj.src = "./images/hell.png";
             }
-		dialTemperature.refresh(currentTemperature); 
+		dialTemperature.refresh(currentTemperature,temperatureRangeValues(currentTemperature)); 
         updateChampiState();
 	}
 
 	function setLight(val){ 
-		currentLight = val;
-		dialLight.refresh(currentLight);
+		currentLight = Math.floor(val);
+		dialLight.refresh(currentLight,lightRangeValues(currentLight));
 		if(currentLight > 110){
 			$(".sunshine").css({"opacity": "1.0" });
 		}else if(currentLight < 90){
@@ -188,7 +188,7 @@ var App = function () {
 	function setHumidity(val){
         previousHumidity = dialHumidity.config.value; 
 		currentHumidity = val;
-		dialHumidity.refresh(currentHumidity);  
+		dialHumidity.refresh(currentHumidity, humityRangeValues(currentHumidity));  
         if(previousHumidity < currentHumidity ){ 
             if(currentTemperature<29){
                 imageObj.src = "./images/nebel.png";
@@ -230,6 +230,26 @@ var App = function () {
         }
     }
 
+    function temperatureRangeValues(val) {
+        if (val < 18) {
+            return 'Low';
+        } else if (val > 28) {
+            return 'High';
+        } else {
+            return 'OK';
+        }
+    }
+
+     function humityRangeValues(val) {
+        if (val < 60) {
+            return 'Low';
+        } else if (val > 90) {
+            return 'High';
+        } else {
+            return 'OK';
+        }
+    }
+
     function updateIsland(){
         setTimeout(function(){
             $(".island").css({"top": (($(window).height()/2)-($(".mushrooms").height()/2))});   
@@ -243,8 +263,7 @@ var App = function () {
                 contentType: 'application/json; charset=utf-8',
                 crossDomain: true, 
                 success: function (data) { 
-                    if(data != null){
-                        console.log("Temperature: "+data.result[0].temperature);
+                    if(data != null){ 
                         setTemperature(data.result[0].temperature);
                         setLastContactWithServer(data.result[0].keen.timestamp);
                     }  
@@ -261,8 +280,7 @@ var App = function () {
                 contentType: 'application/json; charset=utf-8',
                 crossDomain: true, 
                 success: function (data) {
-                    if(data != null){
-                        console.log("Humidity: "+data.result[0].humidity);
+                    if(data != null){ 
                         setHumidity(data.result[0].humidity);
                         setLastContactWithServer(data.result[0].keen.timestamp);
                     }  
@@ -279,8 +297,7 @@ var App = function () {
                 contentType: 'application/json; charset=utf-8',
                 crossDomain: true, 
                 success: function (data) {
-                    if(data != null){
-                        console.log("light: "+data.result[0].lux);
+                    if(data != null){ 
                         setLight(data.result[0].lux);
                         setLastContactWithServer(data.result[0].keen.timestamp);
                     }  
@@ -319,6 +336,10 @@ var App = function () {
         humidity: function(val){
             setHumidity(val);
         },
+
+        dial: function(){
+            return dialLight;
+        }
     };
 
 }();
