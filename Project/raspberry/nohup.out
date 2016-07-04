@@ -1,0 +1,118 @@
+Traceback (most recent call last):
+  File "sensors.py", line 81, in <module>
+    time.sleep(TIME_INTERVAL)
+KeyboardInterrupt
+  File "sensors.py", line 50
+    tsl = tsl2591.Tsl2591()
+    ^
+IndentationError: unexpected indent
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/logging/handlers.py", line 863, in emit
+    self.socket.sendto(msg, self.address)
+gaierror: [Errno -3] Temporary failure in name resolution
+Logged from file sensors.py, line 55
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/logging/handlers.py", line 863, in emit
+    self.socket.sendto(msg, self.address)
+gaierror: [Errno -3] Temporary failure in name resolution
+Logged from file sensors.py, line 55
+Traceback (most recent call last):
+  File "/usr/lib/python2.7/logging/handlers.py", line 863, in emit
+    self.socket.sendto(msg, self.address)
+gaierror: [Errno -3] Temporary failure in name resolution
+Logged from file sensors.py, line 85
+[Errno 32] Broken pipe
+Traceback (most recent call last):
+  File "sensors.py", line 82, in <module>
+    { "lux": float('{0:0.2f}'.format(lux)) }
+  File "/usr/local/lib/python2.7/dist-packages/keen/client.py", line 144, in add_events
+    self.persistence_strategy.batch_persist(events)
+  File "/usr/local/lib/python2.7/dist-packages/keen/persistence_strategies.py", line 44, in batch_persist
+    self.api.post_events(events)
+  File "/usr/local/lib/python2.7/dist-packages/keen/api.py", line 132, in post_events
+    response = self.fulfill(HTTPMethods.POST, url, data=payload, headers=headers, timeout=self.post_timeout)
+  File "/usr/local/lib/python2.7/dist-packages/keen/api.py", line 91, in fulfill
+    return getattr(self.session, method)(*args, **kwargs)
+  File "/usr/lib/python2.7/dist-packages/requests/sessions.py", line 500, in post
+    return self.request('POST', url, data=data, json=json, **kwargs)
+  File "/usr/lib/python2.7/dist-packages/requests/sessions.py", line 457, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python2.7/dist-packages/requests/sessions.py", line 569, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python2.7/dist-packages/requests/adapters.py", line 362, in send
+    timeout=timeout
+  File "/usr/lib/python2.7/dist-packages/urllib3/connectionpool.py", line 516, in urlopen
+    body=body, headers=headers)
+  File "/usr/lib/python2.7/dist-packages/urllib3/connectionpool.py", line 304, in _make_request
+    self._validate_conn(conn)
+  File "/usr/lib/python2.7/dist-packages/urllib3/connectionpool.py", line 724, in _validate_conn
+    conn.connect()
+  File "/usr/lib/python2.7/dist-packages/urllib3/connection.py", line 237, in connect
+    ssl_version=resolved_ssl_version)
+  File "/usr/lib/python2.7/dist-packages/urllib3/contrib/pyopenssl.py", line 283, in ssl_wrap_socket
+    select.select([sock], [], [])
+ValueError: filedescriptor out of range in select()
+Traceback (most recent call last):
+  File "sensors.py", line 112, in <module>
+    db.child(FIREBASE_HUMIDITY_DATA).push(data)
+  File "/usr/local/lib/python2.7/dist-packages/pyrebase/pyrebase.py", line 207, in push
+    request_object = self.requests.post(request_ref, headers=headers, data=json.dumps(data))
+  File "/usr/lib/python2.7/dist-packages/requests/sessions.py", line 500, in post
+    return self.request('POST', url, data=data, json=json, **kwargs)
+  File "/usr/lib/python2.7/dist-packages/requests/sessions.py", line 457, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python2.7/dist-packages/requests/sessions.py", line 569, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python2.7/dist-packages/requests/adapters.py", line 362, in send
+    timeout=timeout
+  File "/usr/lib/python2.7/dist-packages/urllib3/connectionpool.py", line 516, in urlopen
+    body=body, headers=headers)
+  File "/usr/lib/python2.7/dist-packages/urllib3/connectionpool.py", line 331, in _make_request
+    httplib_response = conn.getresponse(buffering=True)
+  File "/usr/lib/python2.7/httplib.py", line 1073, in getresponse
+    response.begin()
+  File "/usr/lib/python2.7/httplib.py", line 415, in begin
+    version, status, reason = self._read_status()
+  File "/usr/lib/python2.7/httplib.py", line 371, in _read_status
+    line = self.fp.readline(_MAXLINE + 1)
+  File "/usr/lib/python2.7/socket.py", line 476, in readline
+    data = self._sock.recv(self._rbufsize)
+  File "/usr/lib/python2.7/dist-packages/urllib3/contrib/pyopenssl.py", line 188, in recv
+    data = self.connection.recv(*args, **kwargs)
+OpenSSL.SSL.SysCallError: (104, 'Connection reset by peer')
+Traceback (most recent call last):
+  File "sensors.py", line 119, in <module>
+    db.child(FIREBASE_TEMPERATURE_DATA).push(data)
+  File "/usr/local/lib/python2.7/dist-packages/pyrebase/pyrebase.py", line 207, in push
+    request_object = self.requests.post(request_ref, headers=headers, data=json.dumps(data))
+  File "/usr/lib/python2.7/dist-packages/requests/sessions.py", line 500, in post
+    return self.request('POST', url, data=data, json=json, **kwargs)
+  File "/usr/lib/python2.7/dist-packages/requests/sessions.py", line 457, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python2.7/dist-packages/requests/sessions.py", line 569, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python2.7/dist-packages/requests/adapters.py", line 407, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', BadStatusLine("''",))
+Traceback (most recent call last):
+  File "sensors.py", line 112, in <module>
+    db.child(FIREBASE_HUMIDITY_DATA).push(data)
+  File "/usr/local/lib/python2.7/dist-packages/pyrebase/pyrebase.py", line 207, in push
+    request_object = self.requests.post(request_ref, headers=headers, data=json.dumps(data))
+  File "/usr/lib/python2.7/dist-packages/requests/sessions.py", line 500, in post
+    return self.request('POST', url, data=data, json=json, **kwargs)
+  File "/usr/lib/python2.7/dist-packages/requests/sessions.py", line 457, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/usr/lib/python2.7/dist-packages/requests/sessions.py", line 569, in send
+    r = adapter.send(request, **kwargs)
+  File "/usr/lib/python2.7/dist-packages/requests/adapters.py", line 407, in send
+    raise ConnectionError(err, request=request)
+requests.exceptions.ConnectionError: ('Connection aborted.', BadStatusLine("''",))
+Traceback (most recent call last):
+  File "sensors.py", line 36, in <module>
+    client.on_message = on_message
+NameError: name 'client' is not defined
+Traceback (most recent call last):
+  File "sensors.py", line 138, in <module>
+    time.sleep(TIME_INTERVAL)
+KeyboardInterrupt
