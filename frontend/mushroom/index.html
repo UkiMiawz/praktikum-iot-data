@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, user-scalable=no">
-    <title>Champi Chamber</title>
+    <title>Fungi Chamber</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/mushroom.css">
@@ -76,17 +76,67 @@
           <div class="sunshine front"></div>
           <div class="charts">
             <div>
-              <a onclick="Charts.updateChart('chartTemperature');" data-toggle="temperature">
+
+
+              <a href="#" id="popover">
+                <img class="img-responsive" src="images/chartTermometer.svg"/>
+              </a>
+
+              <div id="popover-head" class="hide">
+                some title
+              </div>
+              <div id="popover-content" class="hide">
+                <div class="row">
+                  <div class="col-xs-2">
+                    <img class="img-responsive" src="images/termometer.svg"/>
+                  </div>
+                  <div class="col-xs-5">
+                    <input class="form-control form-control-lg" type="text" placeholder="Max">
+                  </div>
+                  <div class="col-xs-5">
+                    <input class="form-control form-control-lg" type="text" placeholder="Min">
+                  </div> 
+                </div>
+
+                <div class="row">
+                  <div class="col-xs-2">
+                    <img class="img-responsive" src="images/humidity.svg"/>
+                  </div>
+                  <div class="col-xs-5">
+                    <input class="form-control form-control-lg" type="text" placeholder="Max">
+                  </div>
+                  <div class="col-xs-5">
+                    <input class="form-control form-control-lg" type="text" placeholder="Min">
+                  </div> 
+                </div>
+
+                <div class="row">
+                  <div class="col-xs-2">
+                    <img class="img-responsive" src="images/light.svg"/>
+                  </div>
+                  <div class="col-xs-5">
+                    <input class="form-control form-control-lg" type="text" placeholder="Max">
+                  </div>
+                  <div class="col-xs-5">
+                    <input class="form-control form-control-lg" type="text" placeholder="Min">
+                  </div> 
+                </div>
+              </div>
+
+
+            </div>
+            <div>
+              <a class="openModal" onclick="Charts.updateChart('chartTemperature');" data-toggle="temperature">
                 <img class="img-responsive" src="images/chartTermometer.svg"/>
               </a>
             </div>
             <div>
-              <a onclick="Charts.updateChart('chartHumidity');" data-toggle="humidity">
+              <a class="openModal" onclick="Charts.updateChart('chartHumidity');" data-toggle="humidity">
                 <img class="img-responsive" src="images/chartHumidity.svg"/>
               </a>
             </div>
             <div>
-              <a onclick="Charts.updateChart('chartLight');" data-toggle="light">
+              <a class="openModal" onclick="Charts.updateChart('chartLight');" data-toggle="light">
                 <img class="img-responsive" src="images/chartLight.svg"/>
               </a>
             </div>
@@ -97,14 +147,32 @@
               </a>
             </div>
             <div>
-              <a >
-                <img class="img-responsive" src="images/lightOff.svg"/>
+              <a id="triggerLightBtn" value="0">
+                <img class="img-responsive" src="images/lightOn.svg"/>
               </a>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+  <div class="modal fade" id="settings" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+          <h4 class="modal-title" >General Settings</h4>
+        </div>
+        <div class="modal-body">
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
     <div id="modalAnalytics" class="modal fade" id="full" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-full">
@@ -206,16 +274,16 @@
     
     
     <script src="js/app.js"></script>  
+    <script src="js/charts.js"></script>
+    <script src="js/automation.js"></script>   
     <script type="text/javascript">
     var ref;
     jQuery(document).ready(function() {  
         App.init(); 
         setTimeout(function(){
           Charts.init();
+          Automation.init();
         },500);
-
-         
-
     });
     </script>
   </body>
