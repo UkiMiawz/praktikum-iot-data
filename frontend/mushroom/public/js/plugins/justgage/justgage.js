@@ -842,14 +842,22 @@ JustGage = function(config) {
 };
 
 /** Refresh gauge level */
-JustGage.prototype.refresh = function(val, max) {
+JustGage.prototype.refresh = function(val, label, max) {
 
   var obj = this;
   var displayVal, color, max = max || null;
 
+   if(label !== null){
+      obj.txtLabel.attr({"text":label}); 
+   }else{
+      obj.txtLabel.attr({"text":""}); 
+   }
+
   // set new max
   if (max !== null) {
-    obj.config.max = max;
+    obj.config.max = max; 
+
+    
     // TODO: update customSectors
 
     obj.txtMaximum = obj.config.max;

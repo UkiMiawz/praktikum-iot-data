@@ -33,19 +33,6 @@ def on_publish(mosq, obj, mid):
 
 try:
 
-	#mqtt client
-	mosquitto_client = mqtt.Client()
-	url = urlparse.urlparse("mqtt://{host}:{port}".format(host=mqtt_host, port=mqtt_port))
-	mosquitto_client.connect(url.hostname, url.port)
-
-	#keen client
-	keen_client = KeenClient(
-		project_id=keen_project_id,  # your project ID for collecting cycling data
-		write_key=keen_write_key,
-		read_key=keen_read_key,
-		master_key=keen_master_key
-	)
-
 	#firebase database
 	config = {
 		"apiKey": FIREBASE_API_KEY,
@@ -78,27 +65,8 @@ try:
 			logger.error('Error failed to get reading from TSL2591 sensor. Try again!')
 			raise
 
-		#publish to eclipse messaging
-		mosquitto_client.on_publish = on_publish
-		mosquitto_client.publish(humidity_topic, '{{"humidity": {humidity}}}'.format(humidity=humidity,))
-		mosquitto_client.publish(temperature_topic, '{{"temperature": {temperature}}}'.format(temperature=temperature,))
-		mosquitto_client.publish(lux_topic, '{{"lux": {0:0.2f}}}'.format(lux))
-		logger.info("Publish to MQTT")
-
-		#separate events into each topic
-		keen_client.add_events({
-			KEEN_HUMIDITY_TOPIC: [
-				{ "humidity": humidity }
-			],
-			KEEN_TEMPERATURE_TOPIC: [
-				{ "temperature": temperature }
-			],
-			KEEN_LUX_TOPIC: [
-				{ "lux": float('{0:0.2f}'.format(lux)) }
-			]
-		})
-		logger.info("Publish to Keen")
-		logger.info("Wait for 1 minute")
+		#count timer
+		start_timestamp = time.time()
 
 		#save to firebase database
 		current_timestamp = time.time()
@@ -130,6 +98,10 @@ try:
 		logger.info("Adding lux data to firebase")
 		logger.info(data)
 		db.child(FIREBASE_LUX_DATA).push(data)
+
+		#count time needed to save to database
+		end_timestamp = time.time()
+		logger.info("Miliseconds span : " + (end_timestamp - start_timestamp))
 
 		time.sleep(TIME_INTERVAL)
 

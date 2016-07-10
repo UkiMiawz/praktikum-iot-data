@@ -1,6 +1,5 @@
 import pyrebase
 import time
-from datetime import datetime
 
 config = {
     "apiKey": "AIzaSyBnL_5ytcAcj6Pgdg2Rtq0ApHyOhNXqiis",
@@ -12,9 +11,16 @@ config = {
 
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
+
 data = {
-    "name": "banana",
-    "timestamp": time.time(),
-    "created_at": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+    "fungi_automation/light/": {
+        "value": 0,
+        "last_update": time.time()
+    },
+    "fungi_automation/water/": {
+        "value": 0,
+        "last_update": time.time()
+    }
 }
-db.child("banana").push(data)
+
+db.update(data)
