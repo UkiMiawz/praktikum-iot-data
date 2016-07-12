@@ -8,8 +8,6 @@ import tsl2591
 import pyrebase
 
 from datetime import datetime
-
-from keen.client import KeenClient
 from settings import *
 
 sensor = Adafruit_DHT.DHT11
