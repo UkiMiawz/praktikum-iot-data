@@ -12,17 +12,6 @@ from datetime import datetime
 from keen.client import KeenClient
 from settings import *
 
-mqtt_host = MQTT_HOST
-mqtt_port = MQTT_PORT
-humidity_topic = HUMIDITY_TOPIC
-temperature_topic = TEMPERATURE_TOPIC
-lux_topic = LUX_TOPIC
-
-keen_project_id = KEEN_PROJECT_ID
-keen_write_key = KEEN_WRITE_KEY
-keen_read_key = KEEN_READ_KEY
-keen_master_key = KEEN_MASTER_KEY
-
 sensor = Adafruit_DHT.DHT11
 pin = 4
 
