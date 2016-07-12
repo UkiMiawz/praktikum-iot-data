@@ -17,3 +17,6 @@ PAPERTRAIL_PORT= os.getenv('PAPERTRAIL_PORT', 24525)
 PAPERTRAIL_HOST= os.getenv('PAPERTRAIL_HOST', 'logs4.papertrailapp.com')
 
 TIME_INTERVAL= os.getenv('TIME_INTERVAL', 05)
+
+LUX_MIN=os.getenv('FIREBASE_LUX_MIN', 90)
+LUX_MAX=os.getenv('FIREBASE_LUX_MAX', 110)

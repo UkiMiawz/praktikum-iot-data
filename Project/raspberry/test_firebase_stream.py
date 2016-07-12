@@ -1,5 +1,4 @@
 import pyrebase
-import json
 from settings import *
 
 config = {
@@ -27,5 +26,3 @@ def stream_handler(post):
 
 print "Listening to stream"
 my_stream = db.child("fungi_automation").stream(stream_handler, None)
-
-

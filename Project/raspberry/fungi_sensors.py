@@ -17,6 +17,8 @@ pin = 4
 
 logger = app_logging.get_logger()
 
+value = 0
+
 def on_publish(mosq, obj, mid):
 	logger.info("mid: " + str(mid))
 
@@ -88,9 +90,31 @@ try:
 		logger.info(data)
 		db.child(FIREBASE_LUX_DATA).push(data)
 
+		#check last light automation value
+		last_light_automation = db.child("fungi_automation").order_by_child("name").equal_to("light").limit_to_last(1).get()
+
+		update_value = 0
+		for last_value in last_light_automation.each():
+			value = last_value.val()
+			if value == 0:
+				if lux < LUX_MIN:
+					update_value = 1
+			else:
+				if lux > LUX_MAX:
+					update_value = 0
+
+		data = {
+			"name": FIREBASE_LIGHT_NAME,
+			"value": update_value,
+			"timestamp": current_timestamp,
+			"created_at": current_datetime,
+		}
+		db.child(FIREBASE_AUTOMATION_DATA).push(data)
+
 		#count time needed to save to database
 		end_timestamp = time.time()
 		logger.info("Miliseconds span : " + (end_timestamp - start_timestamp))
+
 
 		time.sleep(TIME_INTERVAL)
 
