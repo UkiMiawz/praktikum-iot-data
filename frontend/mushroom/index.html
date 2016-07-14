@@ -21,7 +21,7 @@
         <canvas id="globalMist" width="400" height="400"></canvas>
         <div class="sunshine"></div>
         <div class="strips"></div>
-        <div class="timestamp">
+        <div class="timestamp hidden-xs">
           <div class="time"></div>
           <div class="date"></div>
           <div class="timeLebel">Last Server Sync</div>
@@ -31,7 +31,42 @@
 
       <div class="container-fluid" >
         <div class="row mainPanel">
-          <div class="leftPanel">
+          <div class="row visible-xs">
+            <div class="col-xs-4 pad15 ">
+              <div class="minTemp cardView">
+                <img class="img-responsive img" src="images/termometer.svg"/>
+                <div class="valueContainer">
+                  -
+                </div>
+                <div class="status">
+                    <div class="progressBar ok"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-4 pad15 ">
+              <div class="minHumidity cardView">
+                <img class="img-responsive img" src="images/humidity.svg"/>
+                <div class="valueContainer">
+                  -
+                </div>
+                <div class="status">
+                    <div class="progressBar low"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-4 pad15 ">
+              <div class="minLight cardView">
+                <img class="img-responsive img" src="images/light.svg"/>
+                <div class="valueContainer">
+                  -
+                </div>
+                <div class="status">
+                    <div class="progressBar high"></div>
+                </div>
+              </div>
+            </div>  
+          </div>
+          <div class="leftPanel hidden-xs">
             <div id="statusBar" class="row">
               <div id="temperature" class="col-xs-12">
                 <div class="title">
@@ -63,7 +98,7 @@
             </div>
           </div>
           <div class="rightPanel">
-            <div class="row chamber hidden-xs">
+            <div class="row chamber">
                 <div class="col-xs-12 island floating row">
                   <div class="ground col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2 ">
                     <img class="mushrooms  img-responsive" src="images/champiHappy.svg">
@@ -75,55 +110,10 @@
           <div class="frontCloud"></div>
           <div class="sunshine front"></div>
           <div class="charts">
-            <div>
-
-
-              <a href="#" id="popover">
-                <img class="img-responsive" src="images/chartTermometer.svg"/>
-              </a>
-
-              <div id="popover-head" class="hide">
-                some title
-              </div>
-              <div id="popover-content" class="hide">
-                <div class="row">
-                  <div class="col-xs-2">
-                    <img class="img-responsive" src="images/termometer.svg"/>
-                  </div>
-                  <div class="col-xs-5">
-                    <input class="form-control form-control-lg" type="text" placeholder="Max">
-                  </div>
-                  <div class="col-xs-5">
-                    <input class="form-control form-control-lg" type="text" placeholder="Min">
-                  </div> 
-                </div>
-
-                <div class="row">
-                  <div class="col-xs-2">
-                    <img class="img-responsive" src="images/humidity.svg"/>
-                  </div>
-                  <div class="col-xs-5">
-                    <input class="form-control form-control-lg" type="text" placeholder="Max">
-                  </div>
-                  <div class="col-xs-5">
-                    <input class="form-control form-control-lg" type="text" placeholder="Min">
-                  </div> 
-                </div>
-
-                <div class="row">
-                  <div class="col-xs-2">
-                    <img class="img-responsive" src="images/light.svg"/>
-                  </div>
-                  <div class="col-xs-5">
-                    <input class="form-control form-control-lg" type="text" placeholder="Max">
-                  </div>
-                  <div class="col-xs-5">
-                    <input class="form-control form-control-lg" type="text" placeholder="Min">
-                  </div> 
-                </div>
-              </div>
-
-
+            <div> 
+              <a data-toggle="modal" data-target="#settings">
+                <img class="img-responsive" src="images/settings.svg"/>
+              </a>  
             </div>
             <div>
               <a class="openModal" onclick="Charts.updateChart('chartTemperature');" data-toggle="temperature">
@@ -152,6 +142,13 @@
               </a>
             </div>
           </div>
+          <div class="row">
+            <div class="timestamp">
+              <div class="time"></div>
+              <div class="date"></div>
+              <div class="timeLebel">Last Server Sync</div>
+            </div> 
+          </div>
         </div>
       </div>
     </div>
@@ -161,14 +158,57 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-          <h4 class="modal-title" >General Settings</h4>
+          <h4 class="modal-title" >Settings</h4>
         </div>
         <div class="modal-body">
-          
+          <div class="row">
+            <div class="col-xs-offset-2 col-xs-5 control">
+              Min
+            </div>
+            <div class="col-xs-5 control">
+              Max
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2">
+              <img class="img-responsive" src="images/termometer_black.svg"/>
+            </div> 
+            <div class="col-xs-5 control">
+              <input type="number" min="0" max="50" class="form-control form-control-lg" id="min_temperature" placeholder="Min">
+            </div>
+            <div class="col-xs-5 control">
+              <input type="number" min="0" max="50" class="form-control form-control-lg" id="max_temperature" placeholder="Max">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-2">
+              <img class="img-responsive" src="images/humidity_black.svg"/>
+            </div> 
+            <div class="col-xs-5 control">
+              <input type="number" min="0" max="100" class="form-control form-control-lg" id="min_humidity" placeholder="Min">
+            </div>
+            <div class="col-xs-5 control">
+              <input type="number" min="0" max="100" class="form-control form-control-lg" id="max_humidity" placeholder="Max">
+            </div> 
+          </div>
+
+          <div class="row">
+            <div class="col-xs-2">
+              <img class="img-responsive" src="images/light_black.svg"/>
+            </div> 
+            <div class="col-xs-5 control">
+              <input type="number" min="0" class="form-control form-control-lg" id="min_lux" placeholder="Min">
+            </div> 
+            <div class="col-xs-5 control">
+              <input type="number" min="0" class="form-control form-control-lg" id="max_lux" placeholder="Max">
+            </div>
+          </div>
+              
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+        <div class="modal-footer"> 
+           <button id="cancelParameters" type="button"   data-dismiss="modal">Cancel</button>
+          <button id="updateParameters" type="button" >Save changes</button>
         </div>
       </div>
     </div>
@@ -272,18 +312,16 @@
     <script src="js/plugins/moment-timezone.min.js"></script>
 
     
-    
+   
     <script src="js/app.js"></script>  
     <script src="js/charts.js"></script>
-    <script src="js/automation.js"></script>   
+    <script src="js/automation.js"></script>
+       
     <script type="text/javascript">
     var ref;
-    jQuery(document).ready(function() {  
-        App.init(); 
-        setTimeout(function(){
-          Charts.init();
-          Automation.init();
-        },500);
+    jQuery(document).ready(function() { 
+      Automation.init();
+      App.init();
     });
     </script>
   </body>

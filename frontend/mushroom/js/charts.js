@@ -163,9 +163,11 @@ var Charts = function () {
             break;
         }  
         setTimeout(function(){
-            chart.resize(); 
-            chart.setupGrid();
-            chart.draw();
+            if(chart !== undefined){
+                chart.resize(); 
+                chart.setupGrid();
+                chart.draw();
+            }
         },200); 
     }
 

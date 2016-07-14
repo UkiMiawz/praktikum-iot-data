@@ -8,16 +8,10 @@ var App = function () {
     var currentLight = 0; 
 
     var previousTemperature = 0;
-    var previousHumidity = 0;
+    var previousHumidity = 0; 
 
     function initWindow(){  
-        setTimeout(function(){ 
-            updateIsland();
-            setDealHeight();
-        },100);
-       
-    	$(".mainLoading").hide();
-    	$(".main").removeClass("hidden");
+        
         
     	$( window ).resize(function() { 
             updateIsland();
@@ -32,8 +26,7 @@ var App = function () {
     	  	$("a[data-name='"+$(this).attr("data-toggle")+"']").click();
     	});
 
-    	$('.date-picker').datepicker({ autoclose: true});
-
+    	$('.date-picker').datepicker({ autoclose: true});  
     }
 
     function setDealHeight(){
@@ -43,7 +36,7 @@ var App = function () {
             }else{
                 $(this).parent().css({"width":"80%"});   
             } 
-             $(this).css({"top":(($(".dial").height()-$(this).height())/2)+$(this).height()/22});
+            $(this).css({"top":(($(".dial").height()-$(this).height())/2)+$(this).height()/22});
         });
     }
 
@@ -56,11 +49,10 @@ var App = function () {
             gaugeColor: "transparent",
             valueFontSize: "80px",
             titlePosition: "below", 
-            value: 0,
+            value: currentTemperature,
             min: 0,
             max: 50,
-            startAnimationTime: 400,
-            refreshAnimationTime: 400,
+            
             symbol: '°', 
             gaugeWidthScale: 0.3,
             startAnimationTime: 2000,
@@ -72,17 +64,16 @@ var App = function () {
             customSectors: [{
                   color : "#FFD600",
                   lo : 0,
-                  hi : 17
+                  hi : MIN_TEMP-1
                 },{
                   color : "#00ff00",
-                  lo : 18,
-                  hi : 28
+                  lo : MIN_TEMP,
+                  hi : MAX_TEMP
                 },{
                   color : "#ff0000",
-                  lo : 29,
+                  lo : MAX_TEMP+1,
                   hi : 50
-                }],
-
+                }], 
         });
 
         dialHumidity = new JustGage({
@@ -92,11 +83,10 @@ var App = function () {
             labelFontColor: "white",
             gaugeColor: "transparent",
             titlePosition: "below",
-            value: 0,
+            value: currentHumidity,
             min: 0,
             max: 100,
-            startAnimationTime: 400,
-            refreshAnimationTime: 400,
+            
             symbol: '%', 
             gaugeWidthScale: 0.3,
             startAnimationTime: 2000,
@@ -108,14 +98,14 @@ var App = function () {
             customSectors: [{
                   color : "#FFD600",
                   lo : 0,
-                  hi : 59
+                  hi : MIN_HUMIDITY-1
                 },{
                   color : "#00ff00",
-                  lo : 60,
-                  hi : 90
+                  lo : MIN_HUMIDITY,
+                  hi : MAX_HUMIDITY
                 },{
                   color : "#ff0000",
-                  lo : 91,
+                  lo : MAX_HUMIDITY+1,
                   hi : 100
                 }],
         });
@@ -128,12 +118,10 @@ var App = function () {
             valueFontFamily: "caviar_dreamsregular",
             valueFontColor: "white",
             labelFontColor: "white", 
-            value: 0,
+            value: currentLight,
             min: 0,
             max: 200, 
             relativeGaugeSize: true, 
-            startAnimationTime: 400,
-            refreshAnimationTime: 400,
             gaugeWidthScale: 0.3,  
             startAnimationTime: 2000,
             startAnimationType: ">",
@@ -144,36 +132,37 @@ var App = function () {
             customSectors: [{
                   color : "#FFD600",
                   lo : 0,
-                  hi : 90
+                  hi : MIN_LIGHT-1
                 },{
                   color : "#00ff00",
-                  lo : 91,
-                  hi : 110
+                  lo : MIN_LIGHT,
+                  hi : MAX_LIGHT
                 },{
                   color : "#ff0000",
-                  lo : 110,
+                  lo : MAX_LIGHT+1,
                   hi : 40000
                 }],
         });
 	}
 
 	function setTemperature(val){  
-        currentTemperature = val;
-            if(currentTemperature<29){
+        currentTemperature = val; 
+            if(currentTemperature<(MAX_TEMP+1)){ 
                 imageObj.src = "./images/nebel.png";  
             }else{
-                imageObj.src = "./images/hell.png";
-            }
+                imageObj.src = "./images/hell.png";  
+            } 
 		dialTemperature.refresh(currentTemperature,temperatureRangeValues(currentTemperature)); 
         updateChampiState();
+        
 	}
 
 	function setLight(val){ 
 		currentLight = Math.floor(val);
 		dialLight.refresh(currentLight,lightRangeValues(currentLight));
-		if(currentLight > 110){
+		if(currentLight > MAX_LIGHT){
 			$(".sunshine").css({"opacity": "1.0" });
-		}else if(currentLight < 90){
+		}else if(currentLight < MIN_LIGHT){
 			$(".sunshine").css({"opacity": "0.0" });
 		}else{
 			$(".sunshine").css({"opacity": "0.3" });
@@ -186,7 +175,7 @@ var App = function () {
 		currentHumidity = val;
 		dialHumidity.refresh(currentHumidity, humityRangeValues(currentHumidity));  
         if(previousHumidity < currentHumidity ){ 
-            if(currentTemperature<29){
+            if(currentTemperature<MAX_TEMP+1){
                 imageObj.src = "./images/nebel.png";
             }else{
                 imageObj.src = "./images/hell.png";
@@ -199,13 +188,13 @@ var App = function () {
 	}
 
 	function updateChampiState(){ 
-		if(currentTemperature < 18 ){
+		if(currentTemperature < MIN_TEMP-1 ){
 			$(".mushrooms").attr("src","images/champiFrozen.svg");
-		}else if(currentTemperature > 28 ){
+		}else if(currentTemperature > MAX_TEMP){
 			$(".mushrooms").attr("src","images/champiOnfire.svg"); 
-		}else if (currentLight > 100){
+		}else if (currentLight > MAX_LIGHT){
 			$(".mushrooms").attr("src","images/champiIrritated.svg");
-		}else if(currentHumidity < 60 ){
+		}else if(currentHumidity < MIN_HUMIDITY ){
 			$(".mushrooms").attr("src","images/champiThirsty.svg");
 		}else {
 			$(".mushrooms").attr("src","images/champiHappy.svg");
@@ -216,38 +205,67 @@ var App = function () {
     // Max intensity measured 4000 lux
     // Mushrooms need around 100 lux in order to grow properly
     function lightRangeValues(val) {
-        if (val < 90) {
-            return 'Low';
-        } else if (val > 110) {
-            return 'High';
+        var text;
+        $(".minLight .progressBar").removeClass("Low").removeClass("High").removeClass("OK");
+        $(".minLight .valueContainer").html(val);
+        if (val < MIN_LIGHT) {
+
+            text = 'Low';
+        } else if (val > MAX_LIGHT) {
+            text = 'High';
+            val=MAX_LIGHT;
         } else {
-            return 'OK';
+            text = 'OK';
         }
+
+
+        $(".minLight .progressBar").addClass(text);
+        $(".minLight .progressBar").css({"width": (val*100/400)+"%"});  
+         
+        return text;
     }
 
     function temperatureRangeValues(val) {
-        if (val < 18) {
-            return 'Low';
-        } else if (val > 28) {
-            return 'High';
+        var text;
+        $(".minTemp .progressBar").removeClass("Low").removeClass("High").removeClass("OK");
+        if (val < MIN_TEMP) {
+            text = 'Low';
+        } else if (val > MAX_TEMP) {
+            text = 'High';
         } else {
-            return 'OK';
+            text = 'OK';
         }
+        $(".minTemp .progressBar").addClass(text);
+        $(".minTemp .progressBar").css({"width": (val*2)+"%"});
+        $(".minTemp .valueContainer").html(val+"°");
+        
+        return text;
     }
 
      function humityRangeValues(val) {
-        if (val < 60) {
-            return 'Low';
-        } else if (val > 90) {
-            return 'High';
+        var text;
+        $(".minHumidity .progressBar").removeClass("Low").removeClass("High").removeClass("OK");
+        if (val < MIN_HUMIDITY) {
+            text = 'Low';
+        } else if (val > MAX_HUMIDITY) {
+            text = 'High';
         } else {
-            return 'OK';
+            text = 'OK';
         }
+        $(".minHumidity .progressBar").addClass(text);
+        $(".minHumidity .progressBar").css({"width": (val)+"%"});
+        $(".minHumidity .valueContainer").html(val+"%");
+        return text;
     }
 
     function updateIsland(){
         setTimeout(function(){
-            $(".island").css({"top": (($(window).height()/2)-($(".mushrooms").height()/2))});   
+            if($(window).width()>768){
+                $(".island").css({"top": (($(window).height()/2)-($(".mushrooms").height()/2))}); 
+            }else{
+                $(".island").css({"top": 0});
+            }
+              
         },100);  
     }
 
@@ -281,18 +299,15 @@ var App = function () {
             }); 
 
             var refAutomation = new Firebase(COLLECTION_AUTOMATION_LIGHT);
-            refAutomation.on("value", function(snapshot, prevChildKey) {  
-                  
-                if(snapshot.val().value == 1){
-                    console.log("ON");
+            refAutomation.on("value", function(snapshot, prevChildKey) { 
+                if(snapshot.val().value == 1){ 
                     $("#triggerLightBtn img").attr("src", "./images/lightOn.svg");
-                }else{
-                    console.log("OFF");
+                    $("#triggerLightBtn").parent().addClass("active");
+                }else{ 
                     $("#triggerLightBtn img").attr("src", "./images/lightOff.svg");
+                    $("#triggerLightBtn").parent().removeClass("active");
                 }
-                $("#triggerLightBtn").attr("value",snapshot.val().value );
-
-
+                $("#triggerLightBtn").attr("value",snapshot.val().value ); 
             });  
     }
 
@@ -309,7 +324,17 @@ var App = function () {
         	initWindow();
         	creatStatusBarWidget();  
         	readFirebase();
+            Charts.init();
         }, 
+
+        refresh: function(){
+            $("#dialTemperature").html("");
+            $("#dialHumidity").html("");
+            $("#dialLight").html("");
+            creatStatusBarWidget();  
+            updateChampiState();
+           
+        } ,
         
         temperature: function(val){
             setTemperature(val);

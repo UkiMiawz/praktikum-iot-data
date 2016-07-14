@@ -96,7 +96,7 @@ body {
 	background: url(../images/pattern.png) repeat;
 }
 
-.background .timestamp{
+.timestamp{
     font-family: "caviar_dreamsregular";
     position: absolute;
     bottom: 15px;
@@ -105,15 +105,15 @@ body {
     text-align: right;
 }
 
-.background .timestamp .time{
+.timestamp .time{
    font-size: 20px;
 }
 
-.background .timestamp .date{
+.timestamp .date{
    font-size: 14px;
 }
 
-.background .timestamp .timeLebel{
+.timestamp .timeLebel{
    font-size: 10.5px;
 }
 
@@ -202,8 +202,7 @@ body {
     margin: 0 auto;
 }
 
-.chamber{ 
-	overflow: hidden;
+.chamber{  
     height: 100%;
 }
 
@@ -429,13 +428,13 @@ body {
     right: 0;
 }
 
-.charts > div , .automationBtn > div{
+.charts > div , .automationBtn > div {
     display: block;
     padding: 5px;
     height: 60px;
     width: 60px;
     margin-bottom: 15px;
-    background: black;
+    background: rgba(0,0,0,0.8);
     -webkit-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.4) inset;
     -moz-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.4) inset;
     box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.4) inset;
@@ -443,7 +442,7 @@ body {
     border: 1px solid black;
 }
 
-.charts > div:hover, .automationBtn > div:hover{
+.charts > div:hover, .automationBtn > div:hover {
     background: #212121;
     cursor: pointer;
     border: 1px solid white;
@@ -519,11 +518,7 @@ body {
     -moz-border-radius: 0;
     border-radius: 0;
     padding: 10px;
-}
-
-.date{
-	max-width: 410px;
-}
+}  
 
 .input-icon {
     position: relative;
@@ -551,7 +546,7 @@ body {
     font-weight: normal;
     color: #333333;
     background-color: #ffffff;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #6d6d6d;
     border-radius: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -564,36 +559,198 @@ body {
     background: black;
     border: 1px black solid;
 }
+
+.cardView{ 
+    margin: 15px;
+    padding-top: 1px;
+    background: rgba(0,0,0,0.8);
+    -webkit-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.4) inset;
+    -moz-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.4) inset;
+    box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.7), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.4) inset;
+}
+
+.cardView .valueContainer{  
+    color: white;
+    font-family: 'caviar_dreamsregular';
+    font-size: 26px;   
+    text-align: center;
+    margin: 15px;   
+} 
+
+.cardView .img{  
+    width: 50px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin: 10px auto;
+}
+
+.progressBar{
+    height: 4px;
+}
+
+.Low{
+    background-color: #FFD600; 
+    max-width: 100%;
+}
+
+.OK{
+    background-color: #00ff00; 
+    max-width: 100%;
+}
+
+.High{
+    background-color: #ff0000; 
+    max-width: 100%;
+}
+
+.status{
+    width: 100%;
+    height: 6px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: 1px solid #818181;
+}
+
+#settings{
+    width: 300px;
+    margin: 0 auto;  
+    padding-top: 20px;
+}
+
+#settings .control{
+    padding: 5px 10px;
+}
+#settings .modal-dialog{
+    margin-top: 50%;
+    margin: 0px;
+}
+
+#settings .modal-body{
+    padding: 10px 5px;
+}
+
+#settings .modal-content{
+    width: 300px;
+}
+
+#settings .modal-header{
+    background: url("../images/settingsCover.png");
+    height: 120px;
+}
 /*MEDIA QUERIES*/
+
+#settings #updateParameters{ 
+    color: white; 
+    background: rgba(0,0,0,0.8);
+    border: 1px solid black;
+    font-family: 'caviar_dreamsregular', sans-serif;
+    padding: 8px 10px;
+}
+
+#settings #updateParameters:hover{ 
+    background: #212121; 
+}
+
+#settings #cancelParameters{ 
+    color: white; 
+    background: #72a433;
+    border: 1px solid black;
+    font-family: 'caviar_dreamsregular', sans-serif;
+    padding: 8px 10px;
+}
+
+#settings #cancelParameters:hover{ 
+    background: #486721; 
+}
+
+#settings img{
+    max-width: 45px;
+    margin: 0 auto;
+    padding: 6px 7px;
+}
+
+#settings .error{
+    border: 1px solid #c95c2e;
+}
+
+.modal-open .main{
+    -webkit-filter: blur(3px);
+    -moz-filter: blur(3px);
+    -o-filter: blur(3px);
+    -ms-filter: blur(3px);
+    filter: blur(3px);
+}
 
 @media (min-width: 768px){
 	.modal-dialog {
 	    width: 600px;
 	    margin: 10px auto 20px auto;
-	}	
+	}
+
+    
 }
 
 @media only screen and (max-width: 768px){ 
- 
-}
- 
+    .rightPanel {
+        position: relative;
+        width: 100%;
+        float: left;
+        left: 0;
+        padding: 15px;
+    }
+    .sunshine.front { 
+        z-index: -1;
+    }
 
-@media only screen 
-and (min-device-width : 414px) 
-and (max-device-width : 736px) 
-and (orientation : landscape) {
-	.chamber{
-        display: none;
+    .charts{
+        display: flex;
+    }
+
+    .chamber { 
+        height: auto;
+    }
+
+    .charts {
+        display: flex;
+        width: 360px;
+        position: relative;
+        padding-top: 30px;
+        margin: 0 auto;
+        margin-bottom: 20px;
+    }
+
+    .mainPanel {
+        position: relative; 
+    }
+
+    .mushrooms {  
+        max-width: 400px; 
+    }
+
+    .timestamp{
+        position: relative;
+        right: 15px;
+        top: 0;
     }
      
 }
 
-@media only screen 
-and (min-device-width : 320px) 
-and (max-device-width : 568px) 
-and (orientation : landscape) {
-	.chamber{
-        display: none;
+@media only screen and (max-width: 400px){ 
+
+    .charts > div , .automationBtn > div {
+        width: 50px;
+        height: 50px;
+         margin: 0 2px;
     }
-    
+    .charts {
+        width: 300px;
+
+    }
+
 }
+
+
+ 
