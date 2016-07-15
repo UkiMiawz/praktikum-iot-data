@@ -96,6 +96,8 @@ try:
 
 		for last_value in last_light_automation.each():
 			last_value = last_value.val()["value"]
+			update_value = last_value
+			
 			if last_value == 0:
 				if lux < LUX_MIN:
 					logger.info("Need to turn on light")
