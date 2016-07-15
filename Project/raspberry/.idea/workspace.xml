@@ -22,10 +22,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="fungi_streams.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="fungi_streams.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/fungi_streams.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
+            <state relative-caret-position="252">
               <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
@@ -90,11 +90,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fungi_sensors.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="fungi_sensors.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fungi_sensors.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="440">
-              <caret line="97" column="47" selection-start-line="97" selection-start-column="47" selection-end-line="97" selection-end-column="47" />
+              <caret line="97" column="49" selection-start-line="97" selection-start-column="49" selection-end-line="97" selection-end-column="49" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -867,12 +867,12 @@
       <workItem from="1468327299269" duration="7767000" />
       <workItem from="1468521283604" duration="1634000" />
       <workItem from="1468576159347" duration="1553000" />
-      <workItem from="1468580281411" duration="1148000" />
+      <workItem from="1468580281411" duration="1227000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18701000" />
+    <option name="totallyTimeSpent" value="18780000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="73" y="27" width="1847" height="1053" extended-state="6" />
@@ -1210,16 +1210,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/fungi_streams.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/automation_light.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -1259,7 +1249,17 @@
     <entry file="file://$PROJECT_DIR$/fungi_sensors.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
-          <caret line="97" column="47" selection-start-line="97" selection-start-column="47" selection-end-line="97" selection-end-column="47" />
+          <caret line="97" column="49" selection-start-line="97" selection-start-column="49" selection-end-line="97" selection-end-column="49" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/fungi_streams.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
