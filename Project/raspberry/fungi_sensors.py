@@ -98,10 +98,15 @@ try:
 			last_value = last_value.val()
 			if last_value == 0:
 				if lux < LUX_MIN:
+					logger.info("Need to turn on light")
 					update_value = 1
 			else:
 				if lux > LUX_MAX:
+					logger.info("Need to turn off light")
 					update_value = 0
+
+		logger.info("Last light automation value " + str(last_value))
+		logger.info("New light automation value " + str(update_value))
 
 		#only update when the value changes
 		if(last_value != update_value):

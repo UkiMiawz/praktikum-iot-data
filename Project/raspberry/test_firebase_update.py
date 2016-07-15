@@ -1,6 +1,9 @@
 import pyrebase
 import time
 
+from datetime import datetime
+from settings import *
+
 config = {
     "apiKey": "AIzaSyBnL_5ytcAcj6Pgdg2Rtq0ApHyOhNXqiis",
     "authDomain": "fungi-5edf1.firebaseapp.com",
@@ -12,15 +15,12 @@ config = {
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
-data = {
-    "fungi_automation/light/": {
-        "value": 0,
-        "last_update": time.time()
-    },
-    "fungi_automation/water/": {
-        "value": 0,
-        "last_update": time.time()
-    }
-}
+current_timestamp = time.time()
+current_datetime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-db.update(data)
+data = {
+    "lux": 40,
+    "timestamp": current_timestamp,
+    "created_at": current_datetime,
+}
+db.child(FIREBASE_LUX_DATA).push(data)
