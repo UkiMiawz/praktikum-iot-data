@@ -111,7 +111,7 @@ try:
 
 		#count time needed to save to database
 		end_timestamp = time.time()
-		logger.info("Miliseconds span : " + (end_timestamp - start_timestamp))
+		logger.info("Miliseconds span : " + str(end_timestamp - start_timestamp))
 
 
 		time.sleep(TIME_INTERVAL)
