@@ -1,8 +1,10 @@
 import sys
 import time
 import RPi.GPIO as GPIO
+import app_logging
 
 def turn_on(parameter):
+
 	GPIO.setwarnings(False)
 	GPIO.setmode(GPIO.BOARD)
 	# Pin 11 (GPIO 17) as output
