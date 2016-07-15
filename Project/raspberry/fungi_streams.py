@@ -8,10 +8,14 @@ logger = app_logging.get_logger()
 log_text = "Stream - "
 
 def stream_handler(post):
-    logger.info(log_text + "Change in automation " + post["data"]["name"])
-    if post["data"]["name"] == FIREBASE_LIGHT_NAME:
-        value = post["data"]["value"]
-        automation_light.turn_on(value)
+    try:
+        logger.info(log_text + "Change in automation " + post["data"]["name"])
+        if post["data"]["name"] == FIREBASE_LIGHT_NAME:
+            value = post["data"]["value"]
+            automation_light.turn_on(value)
+    except:
+        trace = traceback.format_exc()
+        logger.error("Unexpected error: %s" % trace)
 
 try:
 
@@ -31,7 +35,6 @@ try:
     my_stream = db.child("fungi_automation").stream(stream_handler, None)
 
 except:
-
     trace = traceback.format_exc()
     logger.error("Unexpected error: %s" % trace)
     raise

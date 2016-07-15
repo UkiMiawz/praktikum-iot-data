@@ -17,8 +17,19 @@ logger = app_logging.get_logger()
 
 value = 0
 
-def on_publish(mosq, obj, mid):
-	logger.info("mid: " + str(mid))
+lux_min = LUX_MIN
+lux_max = LUX_MAX
+
+def stream_handler(post):
+	global lux_min
+	global lux_max
+	try:
+		logger.info("Incoming change in parameters")
+		lux_min = post["data"]["param_lux"]["min"]
+		lux_min = post["data"]["param_lux"]["max"]
+	except:
+		trace = traceback.format_exc()
+		logger.error("Unexpected error: %s" % trace)
 
 try:
 
@@ -33,6 +44,10 @@ try:
 
 	firebase = pyrebase.initialize_app(config)
 	db = firebase.database()
+
+	#create a listener
+	print "Listening to stream"
+	my_stream = db.child("fungi_parameters").stream(stream_handler, None)
 
 	while True:
 
@@ -97,13 +112,13 @@ try:
 		for last_value in last_light_automation.each():
 			last_value = last_value.val()["value"]
 			update_value = last_value
-			
+
 			if last_value == 0:
-				if lux < LUX_MIN:
+				if lux < lux_min:
 					logger.info("Need to turn on light")
 					update_value = 1
 			else:
-				if lux > LUX_MAX:
+				if lux > lux_max:
 					logger.info("Need to turn off light")
 					update_value = 0
 

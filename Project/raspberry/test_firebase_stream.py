@@ -1,4 +1,6 @@
 import pyrebase
+import time
+import json
 from settings import *
 
 config = {
@@ -12,17 +14,24 @@ config = {
 firebase = pyrebase.initialize_app(config)
 db = firebase.database()
 
+test = "0"
+
 def stream_handler(post):
+    global test
     print "New post coming"
     print(post["event"]) # put
     print(post["path"]) # /-K7yGTTEp7O549EzTYtI
     print(post["data"]) # {'title': 'Pyrebase', "body": "etc..."}
 
-    print post["data"]["name"]
-    if post["data"]["name"] == FIREBASE_LIGHT_NAME:
-        print "incoming light data"
-        print post["data"]["value"]
-        print post["data"]["timestamp"]
+    if "name" in post["data"]:
+        print "lalala"
+    else:
+        print "banana"
+    test = post["data"]
 
 print "Listening to stream"
 my_stream = db.child("fungi_automation").stream(stream_handler, None)
+
+while True:
+    print test
+    time.sleep(10)
