@@ -57,7 +57,7 @@ try:
 	while True:
 
 		logger.info('Lux Max : ' + str(lux_max))
-		logger.info('Lux Max : ' + str(lux_min))
+		logger.info('Lux Min : ' + str(lux_min))
 
 		#generate data
 		humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
