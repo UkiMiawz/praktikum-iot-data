@@ -46,7 +46,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fungi_sensors.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="fungi_sensors.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/fungi_sensors.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="571">
@@ -54,6 +54,16 @@
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="start-up.sh" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/start-up.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="39" selection-start-line="0" selection-start-column="39" selection-end-line="0" selection-end-column="39" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -88,6 +98,7 @@
         <option value="$PROJECT_DIR$/fungi_streams.py" />
         <option value="$PROJECT_DIR$/test_firebase_stream.py" />
         <option value="$PROJECT_DIR$/fungi_sensors.py" />
+        <option value="$PROJECT_DIR$/start-up.sh" />
       </list>
     </option>
   </component>
@@ -814,12 +825,12 @@
       <workItem from="1468580281411" duration="2252000" />
       <workItem from="1468615213756" duration="608000" />
       <workItem from="1468618766066" duration="3109000" />
-      <workItem from="1468958659684" duration="301000" />
+      <workItem from="1468958659684" duration="445000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23823000" />
+    <option name="totallyTimeSpent" value="23967000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="73" y="27" width="1847" height="1053" extended-state="6" />
@@ -885,16 +896,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/fungi_streams.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_firebase_automation.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
@@ -1176,6 +1177,14 @@
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/start-up.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="39" selection-start-line="0" selection-start-column="39" selection-end-line="0" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>

@@ -117,3 +117,7 @@ Traceback (most recent call last):
     time.sleep(TIME_INTERVAL)
 KeyboardInterrupt
 python: can't open file 'sensors.py': [Errno 2] No such file or directory
+Traceback (most recent call last):
+  File "fungi_sensors.py", line 3, in <module>
+    import Adafruit_DHT
+ImportError: No module named Adafruit_DHT

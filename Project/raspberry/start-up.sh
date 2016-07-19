@@ -1,0 +1,1 @@
+nohup python fungi_sensors.py & python fungi_streams.py
