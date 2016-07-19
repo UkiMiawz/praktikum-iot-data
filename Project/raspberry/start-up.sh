@@ -1,1 +1,1 @@
-nohup python fungi_sensors.py & python fungi_streams.py
+nohup sudo python fungi_sensors.py & sudo python fungi_streams.py
