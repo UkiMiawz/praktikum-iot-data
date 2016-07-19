@@ -29,6 +29,12 @@ def stream_handler(post):
         print "banana"
     test = post["data"]
 
+#get last lux min and max
+last_light_automation = db.child("fungi_parameters").order_by_child("timestamp").limit_to_last(1).get()
+for last_value in last_light_automation.each():
+    print last_value.val()["param_lux"]["max"]
+    print last_value.val()["param_lux"]["min"]
+
 print "Listening to stream"
 my_stream = db.child("fungi_automation").stream(stream_handler, None)
 

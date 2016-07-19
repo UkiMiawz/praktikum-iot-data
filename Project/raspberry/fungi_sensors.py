@@ -45,6 +45,11 @@ try:
 	firebase = pyrebase.initialize_app(config)
 	db = firebase.database()
 
+	last_parameters = db.child("fungi_parameters").order_by_child("timestamp").limit_to_last(1).get()
+	for last_value in last_parameters.each():
+		lux_max = last_value.val()["param_lux"]["max"]
+		lux_min = last_value.val()["param_lux"]["min"]
+
 	#create a listener
 	print "Listening to stream"
 	my_stream = db.child("fungi_parameters").stream(stream_handler, None)
