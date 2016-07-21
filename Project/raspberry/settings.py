@@ -1,5 +1,8 @@
 import os
 
+#all of the constants needed by the scripts
+#read from os environment values if exists
+
 FIREBASE_HUMIDITY_DATA= os.getenv('FIREBASE_HUMIDITY_TOPIC', 'fungi_humidity')
 FIREBASE_TEMPERATURE_DATA= os.getenv('FIREBASE_TEMPERATURE_TOPIC', 'fungi_temperature')
 FIREBASE_LUX_DATA= os.getenv('FIREBASE_LUX_TOPIC', 'fungi_lux')

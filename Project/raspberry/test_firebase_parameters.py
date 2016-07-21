@@ -3,6 +3,8 @@ import time
 from settings import *
 from datetime import datetime
 
+# Script test for automation parameters data push
+
 config = {
     "apiKey": "AIzaSyBnL_5ytcAcj6Pgdg2Rtq0ApHyOhNXqiis",
     "authDomain": "fungi-5edf1.firebaseapp.com",

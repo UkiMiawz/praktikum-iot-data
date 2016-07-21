@@ -3,6 +3,8 @@ import time
 import RPi.GPIO as GPIO
 import app_logging
 
+# script to turn light on or off
+
 logger = app_logging.get_logger()
 
 def turn_on(parameter):

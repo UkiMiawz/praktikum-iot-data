@@ -1,7 +1,7 @@
 import pyrebase
 import time
-import json
-from settings import *
+
+# Script test for listening to changes in automation
 
 config = {
     "apiKey": "AIzaSyBnL_5ytcAcj6Pgdg2Rtq0ApHyOhNXqiis",

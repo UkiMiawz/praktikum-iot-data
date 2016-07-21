@@ -3,6 +3,8 @@ import time
 from settings import *
 from datetime import datetime
 
+# Test script for pushing light automation value
+
 config = {
     "apiKey": "AIzaSyBnL_5ytcAcj6Pgdg2Rtq0ApHyOhNXqiis",
     "authDomain": "fungi-5edf1.firebaseapp.com",

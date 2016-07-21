@@ -4,6 +4,8 @@ import time
 from datetime import datetime
 from settings import *
 
+# Script test to update value to firebase database
+
 config = {
     "apiKey": "AIzaSyBnL_5ytcAcj6Pgdg2Rtq0ApHyOhNXqiis",
     "authDomain": "fungi-5edf1.firebaseapp.com",
